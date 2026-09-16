@@ -1,0 +1,26 @@
+{
+  "versionCode": 100,
+  "versionName": "0.1.0",
+  "notes": "Check the signing key the way the packaging step does\n\nkeytool ignores -keypass on a PKCS12 keystore, which cannot hold a key password\nof its own, so the check passed a key password that Gradle then rejected with\n\"Given final block not properly padded\". The check now loads the keystore and\ncalls getKey through the JDK, which is what packaging does, and falls back to\nthe store password when the key password secret does not decrypt the key.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+  "mandatory": false,
+  "minSdk": 23,
+  "releasedAt": "2026-09-16",
+  "sourceCommit": "ba8926cbafc5ebab6d39092f4102604f4ec72333",
+  "artifacts": {
+    "armeabi-v7a": {
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.1.0/bemplayer-0.1.0-armeabi-v7a.apk",
+      "sha256": "dc1c4eaf694a49ce83c54fc434dc95a5f2bf4942ef920c126bfc21c2ede6abf9",
+      "sizeBytes": 3371561
+    },
+    "arm64-v8a": {
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.1.0/bemplayer-0.1.0-arm64-v8a.apk",
+      "sha256": "ae0b59146d27d2f73b40e3b8bd59e7fb17f90659e7582fd385d2470add89e746",
+      "sizeBytes": 3374255
+    },
+    "universal": {
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.1.0/bemplayer-0.1.0-universal.apk",
+      "sha256": "379ad2b31f5d4a4f6cfa8df2aa22ac0b2af1844dfba23c5de587436ed3ae3d85",
+      "sizeBytes": 3472711
+    }
+  }
+}
