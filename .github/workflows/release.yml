@@ -117,8 +117,7 @@ jobs:
         working-directory: source
         run: gradle test
 
-      - name: Prepare signing
-        working-directory: source
+      - name: Prepare and verify signing
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -126,22 +125,44 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           set -euo pipefail
+          JKS="$RUNNER_TEMP/release.jks"
+
           if [ -z "${KEYSTORE_BASE64:-}" ]; then
             echo "::error::KEYSTORE_BASE64 is not set. Every release must be signed with the same key or the app cannot update itself."
             exit 1
           fi
-          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
-          printf 'storeFile=%s\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
-            "$RUNNER_TEMP/release.jks" "$KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEY_PASSWORD" \
-            > keystore.properties
 
-      - name: Build signed APKs
-        working-directory: source
-        run: |
-          gradle :app:assembleRelease \
-            -PversionName=${{ steps.version.outputs.version }} \
-            -PversionCode=${{ steps.version.outputs.version_code }} \
-            -PupdateManifestUrl=https://raw.githubusercontent.com/${{ github.repository }}/main/update.json
+          # Strip any wrapping so both GNU and BSD base64 output decode cleanly.
+          printf '%s' "$KEYSTORE_BASE64" | tr -d '[:space:]' | base64 -d > "$JKS"
+
+          if [ ! -s "$JKS" ]; then
+            echo "::error::The decoded keystore is empty. Re-create KEYSTORE_BASE64 with: openssl base64 -A -in your.jks"
+            exit 1
+          fi
+
+          # Check the credentials here rather than letting the packaging step fail
+          # five minutes later with a message that blames the wrong password.
+          if ! keytool -list -keystore "$JKS" -storepass "$KEYSTORE_PASSWORD" >/dev/null 2>&1; then
+            echo "::error::KEYSTORE_PASSWORD does not open the keystore. Check for a stray space or newline in the secret."
+            exit 1
+          fi
+          echo "Keystore opens with KEYSTORE_PASSWORD."
+
+          if ! keytool -list -keystore "$JKS" -storepass "$KEYSTORE_PASSWORD" -alias "$KEY_ALIAS" >/dev/null 2>&1; then
+            echo "::error::KEY_ALIAS is not in this keystore. The aliases it does contain are listed below."
+            keytool -list -keystore "$JKS" -storepass "$KEYSTORE_PASSWORD" | grep -i "Entry," || true
+            exit 1
+          fi
+          echo "KEY_ALIAS is present."
+
+          # Reading the private key is what the packaging step does, so prove it now.
+          if ! keytool -certreq -alias "$KEY_ALIAS" -keystore "$JKS" \
+                 -storepass "$KEYSTORE_PASSWORD" -keypass "$KEY_PASSWORD" -file /dev/null 2>/dev/null; then
+            echo "::error::KEY_PASSWORD cannot unlock the key, which is what 'keystore password was incorrect' really means."
+            echo "::error::keytool creates PKCS12 keystores by default, where the key password is normally the same as the store password. If you pressed return at the key password prompt, set KEY_PASSWORD to the same value as KEYSTORE_PASSWORD."
+            exit 1
+          fi
+          echo "KEY_PASSWORD unlocks the key. Signing material is good."
 
       - name: Collect release notes
         id: notes
@@ -251,7 +272,7 @@ jobs:
 
       - name: Remove signing material
         if: always()
-        run: rm -f "$RUNNER_TEMP/release.jks" source/keystore.properties
+        run: rm -f "$RUNNER_TEMP/release.jks"
 
       - name: Summary
         if: always()
