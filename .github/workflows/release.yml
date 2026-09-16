@@ -1,0 +1,265 @@
+name: Release
+
+# Builds run here, in the public repo, so they do not consume the private
+# repo's Actions minutes. The source is checked out from the private repo with
+# a read only token.
+#
+# Note that logs for this workflow are public. A failing build prints source
+# paths and snippets, so treat that as the cost of building here.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release, without the v, for example 0.2.0'
+        required: true
+      source_ref:
+        description: 'Branch, tag or commit in the source repo'
+        required: false
+        default: 'main'
+      notes:
+        description: 'Release notes. Leave empty to take them from the tag'
+        required: false
+
+permissions:
+  contents: write
+
+# Two releases at once would race on the update manifest.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  SOURCE_REPO: liveinaus/bemplayer-code
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          path: public
+
+      - name: Work out version and source ref
+        id: version
+        env:
+          SOURCE_TOKEN: ${{ secrets.SOURCE_REPO_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_SOURCE_REF: ${{ inputs.source_ref }}
+        run: |
+          set -euo pipefail
+
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            VERSION="$INPUT_VERSION"
+            SOURCE_REF="$INPUT_SOURCE_REF"
+          else
+            VERSION="${GITHUB_REF_NAME#v}"
+            SOURCE_REF=""
+          fi
+
+          if ! echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Version must be major.minor.patch, got '$VERSION'"
+            exit 1
+          fi
+
+          # major*10000 + minor*100 + patch, so 0.1.0 is 100 and every later
+          # release compares greater. Minor and patch must stay below 100.
+          IFS=. read -r MAJOR MINOR PATCH <<< "$VERSION"
+          VERSION_CODE=$((MAJOR * 10000 + MINOR * 100 + PATCH))
+
+          # Prefer a matching tag in the source repo, so a release is always
+          # reproducible. Fall back to main when only this repo was tagged.
+          if [ -z "$SOURCE_REF" ]; then
+            if git ls-remote --tags "https://x-access-token:${SOURCE_TOKEN}@github.com/${SOURCE_REPO}.git" "refs/tags/v${VERSION}" | grep -q .; then
+              SOURCE_REF="v${VERSION}"
+            else
+              SOURCE_REF="main"
+            fi
+          fi
+
+          {
+            echo "version=$VERSION"
+            echo "version_code=$VERSION_CODE"
+            echo "source_ref=$SOURCE_REF"
+            echo "tag=v$VERSION"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Releasing $VERSION (build $VERSION_CODE) from $SOURCE_REPO@$SOURCE_REF"
+
+      - name: Check out the private source
+        uses: actions/checkout@v4
+        with:
+          repository: liveinaus/bemplayer-code
+          ref: ${{ steps.version.outputs.source_ref }}
+          token: ${{ secrets.SOURCE_REPO_TOKEN }}
+          path: source
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Unit tests
+        working-directory: source
+        run: gradle test
+
+      - name: Prepare signing
+        working-directory: source
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [ -z "${KEYSTORE_BASE64:-}" ]; then
+            echo "::error::KEYSTORE_BASE64 is not set. Every release must be signed with the same key or the app cannot update itself."
+            exit 1
+          fi
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+          printf 'storeFile=%s\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
+            "$RUNNER_TEMP/release.jks" "$KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEY_PASSWORD" \
+            > keystore.properties
+
+      - name: Build signed APKs
+        working-directory: source
+        run: |
+          gradle :app:assembleRelease \
+            -PversionName=${{ steps.version.outputs.version }} \
+            -PversionCode=${{ steps.version.outputs.version_code }} \
+            -PupdateManifestUrl=https://raw.githubusercontent.com/${{ github.repository }}/main/update.json
+
+      - name: Collect release notes
+        id: notes
+        env:
+          INPUT_NOTES: ${{ inputs.notes }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          set -euo pipefail
+          NOTES_FILE="$RUNNER_TEMP/notes.md"
+
+          # Notes come from the first of these that has anything in it: the
+          # workflow input, the tag in this repo, then the matching tag in the
+          # source repo, which is where an annotated tag is usually written.
+          read_tag_body() {
+            git -C "$1" tag -l --format='%(contents:subject)%0a%0a%(contents:body)' "$TAG" 2>/dev/null || true
+          }
+
+          has_text() {
+            [ -n "$(printf '%s' "$1" | tr -d '[:space:]')" ]
+          }
+
+          if has_text "${INPUT_NOTES:-}"; then
+            printf '%s\n' "$INPUT_NOTES" > "$NOTES_FILE"
+          elif has_text "$(read_tag_body public)"; then
+            read_tag_body public > "$NOTES_FILE"
+          elif has_text "$(read_tag_body source)"; then
+            read_tag_body source > "$NOTES_FILE"
+          else
+            echo "See the commit history for what changed in this build." > "$NOTES_FILE"
+          fi
+
+          echo "path=$NOTES_FILE" >> "$GITHUB_OUTPUT"
+          echo "Release notes:"
+          cat "$NOTES_FILE"
+
+      - name: Generate APK names, manifest and front page
+        id: assets
+        run: |
+          set -euo pipefail
+          SOURCE_SHA="$(git -C source rev-parse HEAD)"
+          python3 source/scripts/release_assets.py \
+            --apk-dir source/app/build/outputs/apk/release \
+            --out-dir "$RUNNER_TEMP/assets" \
+            --template source/docs/release-readme-template.md \
+            --version '${{ steps.version.outputs.version }}' \
+            --version-code '${{ steps.version.outputs.version_code }}' \
+            --repo '${{ github.repository }}' \
+            --source-sha "$SOURCE_SHA" \
+            --notes-file '${{ steps.notes.outputs.path }}'
+          echo "source_sha=$SOURCE_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the release
+        working-directory: public
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG='${{ steps.version.outputs.tag }}'
+
+          if gh release view "$TAG" --repo '${{ github.repository }}' >/dev/null 2>&1; then
+            echo "::error::Release $TAG already exists. Bump the version or delete that release first."
+            exit 1
+          fi
+
+          gh release create "$TAG" \
+            --repo '${{ github.repository }}' \
+            --title "Bemplayer ${{ steps.version.outputs.version }}" \
+            --notes-file '${{ steps.notes.outputs.path }}' \
+            "$RUNNER_TEMP"/assets/*.apk \
+            "$RUNNER_TEMP/assets/update.json"
+
+      # Only now do the download URLs in the manifest resolve, so this comes
+      # after the release is published, never before.
+      - name: Update the front page and the update manifest
+        working-directory: public
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/assets/update.json" update.json
+          cp "$RUNNER_TEMP/assets/README.md" README.md
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add update.json README.md
+
+          if git diff --cached --quiet; then
+            echo "Nothing changed on the front page."
+            exit 0
+          fi
+
+          git commit -m "Publish ${{ steps.version.outputs.tag }}"
+          git push origin HEAD:main
+
+      - name: Tag the source commit
+        env:
+          SOURCE_TOKEN: ${{ secrets.SOURCE_REPO_TOKEN }}
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          # Traceability only, so a failure here must not fail the release.
+          # It is skipped when the source was already tagged.
+          if [ '${{ steps.version.outputs.source_ref }}' = '${{ steps.version.outputs.tag }}' ]; then
+            echo "Source was already tagged."
+            exit 0
+          fi
+          git -C source tag '${{ steps.version.outputs.tag }}' '${{ steps.assets.outputs.source_sha }}'
+          git -C source push "https://x-access-token:${SOURCE_TOKEN}@github.com/${SOURCE_REPO}.git" '${{ steps.version.outputs.tag }}'
+
+      - name: Remove signing material
+        if: always()
+        run: rm -f "$RUNNER_TEMP/release.jks" source/keystore.properties
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Bemplayer ${{ steps.version.outputs.version }}"
+            echo
+            echo "- Build ${{ steps.version.outputs.version_code }}"
+            echo "- Source \`${{ env.SOURCE_REPO }}@${{ steps.version.outputs.source_ref }}\`"
+            echo "- Release https://github.com/${{ github.repository }}/releases/tag/${{ steps.version.outputs.tag }}"
+          } >> "$GITHUB_STEP_SUMMARY"
