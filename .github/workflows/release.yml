@@ -117,7 +117,8 @@ jobs:
         working-directory: source
         run: gradle test
 
-      - name: Prepare and verify signing
+      - name: Build signed APKs
+        working-directory: source
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -140,29 +141,94 @@ jobs:
             exit 1
           fi
 
-          # Check the credentials here rather than letting the packaging step fail
-          # five minutes later with a message that blames the wrong password.
-          if ! keytool -list -keystore "$JKS" -storepass "$KEYSTORE_PASSWORD" >/dev/null 2>&1; then
-            echo "::error::KEYSTORE_PASSWORD does not open the keystore. Check for a stray space or newline in the secret."
-            exit 1
-          fi
-          echo "Keystore opens with KEYSTORE_PASSWORD."
+          # A secret pasted into the browser usually keeps a trailing newline, and a
+          # backslash pasted into a properties file used to be eaten by Java's escaping.
+          # Neither is visible in a secret, so try the value as given, then trimmed, and
+          # say which one worked. The trimmed value is masked before it is ever used.
+          trim() { printf '%s' "$1" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'; }
 
-          if ! keytool -list -keystore "$JKS" -storepass "$KEYSTORE_PASSWORD" -alias "$KEY_ALIAS" >/dev/null 2>&1; then
-            echo "::error::KEY_ALIAS is not in this keystore. The aliases it does contain are listed below."
-            keytool -list -keystore "$JKS" -storepass "$KEYSTORE_PASSWORD" | grep -i "Entry," || true
-            exit 1
-          fi
-          echo "KEY_ALIAS is present."
+          # $1 store password, $2 alias or empty, $3 key password or empty.
+          # Listing an alias with a key password is exactly what packaging does.
+          unlocks() {
+            if [ -n "${2:-}" ] && [ -n "${3:-}" ]; then
+              keytool -certreq -alias "$2" -keystore "$JKS" -storepass "$1" -keypass "$3" -file /dev/null
+            elif [ -n "${2:-}" ]; then
+              keytool -list -keystore "$JKS" -storepass "$1" -alias "$2"
+            else
+              keytool -list -keystore "$JKS" -storepass "$1"
+            fi
+          }
 
-          # Reading the private key is what the packaging step does, so prove it now.
-          if ! keytool -certreq -alias "$KEY_ALIAS" -keystore "$JKS" \
-                 -storepass "$KEYSTORE_PASSWORD" -keypass "$KEY_PASSWORD" -file /dev/null 2>/dev/null; then
-            echo "::error::KEY_PASSWORD cannot unlock the key, which is what 'keystore password was incorrect' really means."
-            echo "::error::keytool creates PKCS12 keystores by default, where the key password is normally the same as the store password. If you pressed return at the key password prompt, set KEY_PASSWORD to the same value as KEYSTORE_PASSWORD."
-            exit 1
+          STORE_PASSWORD="$KEYSTORE_PASSWORD"
+          if ! unlocks "$STORE_PASSWORD" '' '' >/dev/null 2>&1; then
+            TRIMMED="$(trim "$KEYSTORE_PASSWORD")"
+            echo "::add-mask::$TRIMMED"
+            if [ "$TRIMMED" != "$KEYSTORE_PASSWORD" ] && unlocks "$TRIMMED" '' '' >/dev/null 2>&1; then
+              echo "::warning::KEYSTORE_PASSWORD has whitespace around it. Using the trimmed value, but re-save the secret without it."
+              STORE_PASSWORD="$TRIMMED"
+            else
+              echo "::error::KEYSTORE_PASSWORD does not open the keystore. keytool said:"
+              unlocks "$STORE_PASSWORD" '' '' 2>&1 >/dev/null | sed 's/^/::error::keytool: /' || true
+              exit 1
+            fi
           fi
-          echo "KEY_PASSWORD unlocks the key. Signing material is good."
+          echo "The keystore opens."
+
+          ALIAS="$KEY_ALIAS"
+          if ! unlocks "$STORE_PASSWORD" "$ALIAS" '' >/dev/null 2>&1; then
+            TRIMMED="$(trim "$KEY_ALIAS")"
+            echo "::add-mask::$TRIMMED"
+            if [ "$TRIMMED" != "$KEY_ALIAS" ] && unlocks "$STORE_PASSWORD" "$TRIMMED" '' >/dev/null 2>&1; then
+              echo "::warning::KEY_ALIAS has whitespace around it. Using the trimmed value, but re-save the secret without it."
+              ALIAS="$TRIMMED"
+            else
+              echo "::error::KEY_ALIAS is not in this keystore. The aliases it does contain are listed below."
+              unlocks "$STORE_PASSWORD" '' '' 2>/dev/null | grep -i 'Entry,' || true
+              exit 1
+            fi
+          fi
+          echo "The alias is present."
+
+          # keytool makes PKCS12 keystores now, where pressing return at the key
+          # password prompt reuses the store password. An empty secret means that.
+          KEY_PASS="${KEY_PASSWORD:-}"
+          if [ -z "$KEY_PASS" ]; then
+            KEY_PASS="$STORE_PASSWORD"
+          fi
+          if ! unlocks "$STORE_PASSWORD" "$ALIAS" "$KEY_PASS" >/dev/null 2>&1; then
+            RESOLVED=""
+            for CANDIDATE in "$(trim "$KEY_PASS")" "$STORE_PASSWORD"; do
+              echo "::add-mask::$CANDIDATE"
+              if [ "$CANDIDATE" != "$KEY_PASS" ] && unlocks "$STORE_PASSWORD" "$ALIAS" "$CANDIDATE" >/dev/null 2>&1; then
+                RESOLVED="$CANDIDATE"
+                break
+              fi
+            done
+            if [ -n "$RESOLVED" ]; then
+              echo "::warning::KEY_PASSWORD as stored does not unlock the key, but a trimmed value or the store password does. Re-save the secret to match."
+              KEY_PASS="$RESOLVED"
+            else
+              echo "::error::KEY_PASSWORD cannot unlock the key. That is what 'Given final block not properly padded' means in the packaging step."
+              echo "::error::Check it against the keystore locally: keytool -certreq -alias <alias> -keystore <your.jks> -file /dev/null"
+              unlocks "$STORE_PASSWORD" "$ALIAS" "$KEY_PASS" 2>&1 >/dev/null | sed 's/^/::error::keytool: /' || true
+              exit 1
+            fi
+          fi
+          echo "The key unlocks. Signing material is good."
+
+          # Passed through the environment rather than keystore.properties, because a
+          # properties file applies Java's escaping rules to the passwords. They stay
+          # inside this step so they are never written to an output or to the workspace.
+          export BEMPLAYER_KEYSTORE="$JKS"
+          export BEMPLAYER_KEYSTORE_PASSWORD="$STORE_PASSWORD"
+          export BEMPLAYER_KEY_ALIAS="$ALIAS"
+          export BEMPLAYER_KEY_PASSWORD="$KEY_PASS"
+
+          gradle :app:assembleRelease \
+            -PrequireSigning=true \
+            -PversionName='${{ steps.version.outputs.version }}' \
+            -PversionCode='${{ steps.version.outputs.version_code }}' \
+            -PupdateManifestUrl='https://raw.githubusercontent.com/${{ github.repository }}/main/update.json'
 
       - name: Collect release notes
         id: notes
