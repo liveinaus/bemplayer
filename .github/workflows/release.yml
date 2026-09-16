@@ -141,80 +141,125 @@ jobs:
             exit 1
           fi
 
+          # Checked through the same calls the packaging step makes, because keytool
+          # ignores -keypass on a PKCS12 keystore and so passes a key password that
+          # Gradle then rejects. Reads its input from the environment, never argv.
+          cat > "$RUNNER_TEMP/KeyCheck.java" <<'JAVA'
+          import java.io.File;
+          import java.security.KeyStore;
+          import java.util.Collections;
+
+          // 10 the store did not open, 11 no such alias, 12 the key did not decrypt.
+          public class KeyCheck {
+              public static void main(String[] args) {
+                  String alias = System.getenv("CHECK_ALIAS");
+                  String keyPassword = System.getenv("CHECK_KEY_PASSWORD");
+                  KeyStore keyStore;
+                  try {
+                      keyStore =
+                          KeyStore.getInstance(
+                              new File(System.getenv("CHECK_KEYSTORE")),
+                              System.getenv("CHECK_STORE_PASSWORD").toCharArray());
+                  } catch (Exception e) {
+                      System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
+                      System.exit(10);
+                      return;
+                  }
+                  System.out.println(keyStore.getType());
+                  if (alias == null || alias.isEmpty()) {
+                      return;
+                  }
+                  try {
+                      if (!keyStore.containsAlias(alias)) {
+                          System.err.println("Aliases present: " + Collections.list(keyStore.aliases()));
+                          System.exit(11);
+                          return;
+                      }
+                      if (keyPassword == null || keyPassword.isEmpty()) {
+                          return;
+                      }
+                      if (keyStore.getKey(alias, keyPassword.toCharArray()) == null) {
+                          System.err.println("No key under that alias.");
+                          System.exit(12);
+                      }
+                  } catch (Exception e) {
+                      System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
+                      System.exit(12);
+                  }
+              }
+          }
+          JAVA
+
+          # $1 store password, $2 alias or empty, $3 key password or empty.
+          check() {
+            CHECK_KEYSTORE="$JKS" CHECK_STORE_PASSWORD="$1" CHECK_ALIAS="$2" CHECK_KEY_PASSWORD="$3" \
+              java "$RUNNER_TEMP/KeyCheck.java"
+          }
+          code() { check "$@" >/dev/null 2>&1 || echo $?; }
+
           # A secret pasted into the browser usually keeps a trailing newline, and a
           # backslash pasted into a properties file used to be eaten by Java's escaping.
           # Neither is visible in a secret, so try the value as given, then trimmed, and
           # say which one worked. The trimmed value is masked before it is ever used.
           trim() { printf '%s' "$1" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'; }
 
-          # $1 store password, $2 alias or empty, $3 key password or empty.
-          # Listing an alias with a key password is exactly what packaging does.
-          unlocks() {
-            if [ -n "${2:-}" ] && [ -n "${3:-}" ]; then
-              keytool -certreq -alias "$2" -keystore "$JKS" -storepass "$1" -keypass "$3" -file /dev/null
-            elif [ -n "${2:-}" ]; then
-              keytool -list -keystore "$JKS" -storepass "$1" -alias "$2"
-            else
-              keytool -list -keystore "$JKS" -storepass "$1"
-            fi
-          }
-
           STORE_PASSWORD="$KEYSTORE_PASSWORD"
-          if ! unlocks "$STORE_PASSWORD" '' '' >/dev/null 2>&1; then
+          if [ "$(code "$STORE_PASSWORD" '' '')" = 10 ]; then
             TRIMMED="$(trim "$KEYSTORE_PASSWORD")"
             echo "::add-mask::$TRIMMED"
-            if [ "$TRIMMED" != "$KEYSTORE_PASSWORD" ] && unlocks "$TRIMMED" '' '' >/dev/null 2>&1; then
+            if [ "$TRIMMED" != "$KEYSTORE_PASSWORD" ] && [ -z "$(code "$TRIMMED" '' '')" ]; then
               echo "::warning::KEYSTORE_PASSWORD has whitespace around it. Using the trimmed value, but re-save the secret without it."
               STORE_PASSWORD="$TRIMMED"
             else
-              echo "::error::KEYSTORE_PASSWORD does not open the keystore. keytool said:"
-              unlocks "$STORE_PASSWORD" '' '' 2>&1 >/dev/null | sed 's/^/::error::keytool: /' || true
+              echo "::error::KEYSTORE_PASSWORD does not open the keystore. Java said:"
+              check "$STORE_PASSWORD" '' '' 2>&1 >/dev/null | sed 's/^/::error::/' || true
               exit 1
             fi
           fi
-          echo "The keystore opens."
+          echo "The keystore opens. Type: $(check "$STORE_PASSWORD" '' '')"
 
           ALIAS="$KEY_ALIAS"
-          if ! unlocks "$STORE_PASSWORD" "$ALIAS" '' >/dev/null 2>&1; then
+          if [ "$(code "$STORE_PASSWORD" "$ALIAS" '')" = 11 ]; then
             TRIMMED="$(trim "$KEY_ALIAS")"
             echo "::add-mask::$TRIMMED"
-            if [ "$TRIMMED" != "$KEY_ALIAS" ] && unlocks "$STORE_PASSWORD" "$TRIMMED" '' >/dev/null 2>&1; then
+            if [ "$TRIMMED" != "$KEY_ALIAS" ] && [ -z "$(code "$STORE_PASSWORD" "$TRIMMED" '')" ]; then
               echo "::warning::KEY_ALIAS has whitespace around it. Using the trimmed value, but re-save the secret without it."
               ALIAS="$TRIMMED"
             else
-              echo "::error::KEY_ALIAS is not in this keystore. The aliases it does contain are listed below."
-              unlocks "$STORE_PASSWORD" '' '' 2>/dev/null | grep -i 'Entry,' || true
+              echo "::error::KEY_ALIAS is not in this keystore."
+              check "$STORE_PASSWORD" "$ALIAS" '' 2>&1 >/dev/null | sed 's/^/::error::/' || true
               exit 1
             fi
           fi
           echo "The alias is present."
 
-          # keytool makes PKCS12 keystores now, where pressing return at the key
-          # password prompt reuses the store password. An empty secret means that.
+          # A PKCS12 keystore cannot hold a key password of its own, so there the store
+          # password is the key password however the secret is set. An empty secret means
+          # the same thing: return was pressed at the key password prompt.
           KEY_PASS="${KEY_PASSWORD:-}"
           if [ -z "$KEY_PASS" ]; then
             KEY_PASS="$STORE_PASSWORD"
           fi
-          if ! unlocks "$STORE_PASSWORD" "$ALIAS" "$KEY_PASS" >/dev/null 2>&1; then
+          if [ -n "$(code "$STORE_PASSWORD" "$ALIAS" "$KEY_PASS")" ]; then
             RESOLVED=""
             for CANDIDATE in "$(trim "$KEY_PASS")" "$STORE_PASSWORD"; do
               echo "::add-mask::$CANDIDATE"
-              if [ "$CANDIDATE" != "$KEY_PASS" ] && unlocks "$STORE_PASSWORD" "$ALIAS" "$CANDIDATE" >/dev/null 2>&1; then
+              if [ "$CANDIDATE" != "$KEY_PASS" ] && [ -z "$(code "$STORE_PASSWORD" "$ALIAS" "$CANDIDATE")" ]; then
                 RESOLVED="$CANDIDATE"
                 break
               fi
             done
             if [ -n "$RESOLVED" ]; then
-              echo "::warning::KEY_PASSWORD as stored does not unlock the key, but a trimmed value or the store password does. Re-save the secret to match."
+              echo "::warning::KEY_PASSWORD as stored does not decrypt the key, but a trimmed value or the store password does. Re-save the secret to match."
               KEY_PASS="$RESOLVED"
             else
-              echo "::error::KEY_PASSWORD cannot unlock the key. That is what 'Given final block not properly padded' means in the packaging step."
-              echo "::error::Check it against the keystore locally: keytool -certreq -alias <alias> -keystore <your.jks> -file /dev/null"
-              unlocks "$STORE_PASSWORD" "$ALIAS" "$KEY_PASS" 2>&1 >/dev/null | sed 's/^/::error::keytool: /' || true
+              echo "::error::KEY_PASSWORD cannot decrypt the key. That is what 'Given final block not properly padded' means in the packaging step."
+              echo "::error::Note that keytool cannot check this for a PKCS12 keystore, where it ignores -keypass. Java said:"
+              check "$STORE_PASSWORD" "$ALIAS" "$KEY_PASS" 2>&1 >/dev/null | sed 's/^/::error::/' || true
               exit 1
             fi
           fi
-          echo "The key unlocks. Signing material is good."
+          echo "The key decrypts. Signing material is good."
 
           # Passed through the environment rather than keystore.properties, because a
           # properties file applies Java's escaping rules to the passwords. They stay
