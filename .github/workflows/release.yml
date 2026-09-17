@@ -420,11 +420,13 @@ jobs:
         run: |
           set -euo pipefail
           cp "$RUNNER_TEMP/assets/update.json" update.json
-          cp "$RUNNER_TEMP/assets/README.md" README.md
+          # One page per language: README.md is the front page and each
+          # translation sits beside it as README.<lang>.md.
+          cp "$RUNNER_TEMP"/assets/README*.md .
 
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add update.json README.md
+          git add update.json README*.md
 
           if git diff --cached --quiet; then
             echo "Nothing changed on the front page."
