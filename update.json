@@ -1,27 +1,27 @@
 {
-  "versionCode": 103,
-  "versionName": "0.1.3",
+  "versionCode": 104,
+  "versionName": "0.1.4",
   "channel": "stable",
-  "notes": "Put the logo on the front page\n\nThe branding is cut from one sheet in the source repo, which is where this\ncopy comes from. The release template carries the same header, so a release\nrewriting this page keeps it.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+  "notes": "Use the same logo file the source repo generates\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
   "mandatory": false,
   "minSdk": 23,
   "releasedAt": "2026-09-17",
-  "sourceCommit": "9d956aa60be297ff609f9480cb9d372d99e82391",
+  "sourceCommit": "cb451619fa80c5ce42df22fd60a4e1297c3fb8e5",
   "artifacts": {
     "armeabi-v7a": {
-      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.1.3/bemplayer-0.1.3-armeabi-v7a.apk",
-      "sha256": "b7a2077f506b5b094ffb0008da3978434e9341c85709cd1c2f9afa8cbd1a9347",
-      "sizeBytes": 7657156
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.1.4/bemplayer-0.1.4-armeabi-v7a.apk",
+      "sha256": "bc9d5e7f3f0d8dd21745bf45f2222d3183c8e85857d97bbc5b9dbf72b1d3e032",
+      "sizeBytes": 7659220
     },
     "arm64-v8a": {
-      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.1.3/bemplayer-0.1.3-arm64-v8a.apk",
-      "sha256": "739fe572f6b28e2dc87a010903b8a2331009ce6242c89c4cf7e8431a223ba69e",
-      "sizeBytes": 8710790
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.1.4/bemplayer-0.1.4-arm64-v8a.apk",
+      "sha256": "345fea3bfbb118b0dc7237b29e37b8ff3620816069838c4d9d70dd7037540985",
+      "sizeBytes": 8712854
     },
     "universal": {
-      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.1.3/bemplayer-0.1.3-universal.apk",
-      "sha256": "9fc3538d45b450e34ba7bff78a3a6f2cf7e2f6f534ef622fc81bc53a3adc939b",
-      "sizeBytes": 14265488
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.1.4/bemplayer-0.1.4-universal.apk",
+      "sha256": "f8b69f055ae4f9e093f51131b9c52906c00677ce8104baa52961cff2be63ea3f",
+      "sizeBytes": 14267552
     }
   }
 }
