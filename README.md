@@ -2,16 +2,16 @@
 
 An Emby client for Android TV, built for a remote control rather than a touchscreen.
 
-**Latest version 0.1.2**, released 2026-09-17. Requires Android 6.0 or newer
+**Latest version 0.1.3**, released 2026-09-17. Requires Android 6.0 or newer
 (API 23).
 
 ## Download
 
 | Download | Best for | Size |
 | --- | --- | --- |
-| [armeabi-v7a](https://github.com/liveinaus/bemplayer/releases/download/v0.1.2/bemplayer-0.1.2-armeabi-v7a.apk) | Most Android TV boxes and sticks, including older Fire TV | 7.1 MB |
-| [arm64-v8a](https://github.com/liveinaus/bemplayer/releases/download/v0.1.2/bemplayer-0.1.2-arm64-v8a.apk) | Newer 64 bit devices, Shield TV, recent Fire TV and Chromecast | 8.1 MB |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.1.2/bemplayer-0.1.2-universal.apk) | Works everywhere, larger download. Use if unsure | 13.4 MB |
+| [armeabi-v7a](https://github.com/liveinaus/bemplayer/releases/download/v0.1.3/bemplayer-0.1.3-armeabi-v7a.apk) | Most Android TV boxes and sticks, including older Fire TV | 7.3 MB |
+| [arm64-v8a](https://github.com/liveinaus/bemplayer/releases/download/v0.1.3/bemplayer-0.1.3-arm64-v8a.apk) | Newer 64 bit devices, Shield TV, recent Fire TV and Chromecast | 8.3 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.1.3/bemplayer-0.1.3-universal.apk) | Works everywhere, larger download. Use if unsure | 13.6 MB |
 
 Not sure which one? Take `universal`. It is a larger download and works on everything.
 
@@ -27,7 +27,7 @@ APK across, open it, and accept the install prompt.
 
 ```bash
 adb connect <tv-ip>:5555
-adb install -r bemplayer-0.1.2-universal.apk
+adb install -r bemplayer-0.1.3-universal.apk
 ```
 
 Then open Bemplayer from the Android TV home screen and enter your Emby server address,
@@ -57,26 +57,23 @@ information for a bug report.
 
 ## What is in this release
 
-Publish a dev channel alongside the stable one
+Put the logo on the front page
 
-A dev release is tagged dev-0.2.0 and calls itself 0.2.0-dev, so an
-installed APK always names the stream it came from. It is published as a
-prerelease, which is what keeps it out of the releases/latest URL every
-stable install reads, and it never rewrites the front page.
-
-Driven from the source repo by ./scripts/release.sh --dev 0.2.0.
+The branding is cut from one sheet in the source repo, which is where this
+copy comes from. The release template carries the same header, so a release
+rewriting this page keeps it.
 
 Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
 
 ## Verifying a download
 
 ```
-e05681e99a700af3af772ee257384537d3869bf7960be0b132ab0bc92718001c  bemplayer-0.1.2-armeabi-v7a.apk
-bb94219b49f485a556a15dba886ca88fe9cba706247a44e2670af1df7c3f5b7e  bemplayer-0.1.2-arm64-v8a.apk
-f6b21b1c862994a25bb9046719f92a6303fd3e1e6901030e58a8c6e55ff6d31c  bemplayer-0.1.2-universal.apk
+b7a2077f506b5b094ffb0008da3978434e9341c85709cd1c2f9afa8cbd1a9347  bemplayer-0.1.3-armeabi-v7a.apk
+739fe572f6b28e2dc87a010903b8a2331009ce6242c89c4cf7e8431a223ba69e  bemplayer-0.1.3-arm64-v8a.apk
+9fc3538d45b450e34ba7bff78a3a6f2cf7e2f6f534ef622fc81bc53a3adc939b  bemplayer-0.1.3-universal.apk
 ```
 
-Check one with `sha256sum bemplayer-0.1.2-universal.apk`.
+Check one with `sha256sum bemplayer-0.1.3-universal.apk`.
 
 ## Reporting a problem
 
@@ -91,6 +88,6 @@ Please include your device model, the Android version and the Emby server versio
 This repository publishes builds only. It holds the releases, this page and
 `update.json`, which is the file the app polls to discover new versions. The source is
 kept in a separate private repository, and each release records the commit it was built
-from: `6d6e8e4`.
+from: `9d956aa`.
 
-Version 0.1.2 is build 102.
+Version 0.1.3 is build 103.
