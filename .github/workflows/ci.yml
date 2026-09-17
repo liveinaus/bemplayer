@@ -40,30 +40,35 @@ jobs:
           ref: ${{ inputs.source_ref || 'main' }}
           token: ${{ secrets.SOURCE_REPO_TOKEN }}
 
-      - name: Set up JDK 17
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Format, lint, typecheck and the unit tests, in that order.
+      - name: Checks
+        run: npm run check
+
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
 
+      # The Gradle wrapper in android/ decides the version; this is for caching.
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.9'
 
-      - name: Check formatting
-        run: gradle spotlessCheck
-
-      - name: Unit tests
-        run: gradle test
+      # Proves the APK still assembles. The web app has to be built first: the
+      # native project packages dist/, and cap sync writes the plugin project.
+      - name: Build the web app
+        run: |
+          npm run build
+          npx cap sync android
 
       - name: Assemble debug
-        run: gradle :app:assembleDebug
-
-      - name: Upload test reports
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: test-reports
-          path: '**/build/reports/tests/**'
-          retention-days: 7
+        run: ./android/gradlew -p android :app:assembleDebug
