@@ -1,89 +1,93 @@
 <img src="docs/logo.png" alt="Bemplayer" width="420">
 
-An Emby client for Android TV, built for a remote control rather than a touchscreen.
+简体中文 | [English](README.en.md)
 
-**Latest version 0.1.4**, released 2026-09-17. Requires Android 6.0 or newer
-(API 23).
+一款为 Android TV 打造的 Emby 客户端，为遥控器而设计，而不是触摸屏。
 
-## Download
+**最新版本 0.1.5**，发布于 2026-09-17。需要 Android 6.0
+或更高版本（API 23）。
 
-| Download | Best for | Size |
+## 下载
+
+| 下载 | 适合 | 大小 |
 | --- | --- | --- |
-| [armeabi-v7a](https://github.com/liveinaus/bemplayer/releases/download/v0.1.4/bemplayer-0.1.4-armeabi-v7a.apk) | Most Android TV boxes and sticks, including older Fire TV | 7.3 MB |
-| [arm64-v8a](https://github.com/liveinaus/bemplayer/releases/download/v0.1.4/bemplayer-0.1.4-arm64-v8a.apk) | Newer 64 bit devices, Shield TV, recent Fire TV and Chromecast | 8.3 MB |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.1.4/bemplayer-0.1.4-universal.apk) | Works everywhere, larger download. Use if unsure | 13.6 MB |
+| [armeabi-v7a](https://github.com/liveinaus/bemplayer/releases/download/v0.1.5/bemplayer-0.1.5-armeabi-v7a.apk) | 多数 Android TV 盒子和电视棒，包括较老的 Fire TV | 7.3 MB |
+| [arm64-v8a](https://github.com/liveinaus/bemplayer/releases/download/v0.1.5/bemplayer-0.1.5-arm64-v8a.apk) | 较新的 64 位设备、Shield TV、近几代 Fire TV 和 Chromecast | 8.3 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.1.5/bemplayer-0.1.5-universal.apk) | 所有设备都能用，下载大一些。拿不准就选它 | 13.6 MB |
 
-Not sure which one? Take `universal`. It is a larger download and works on everything.
+不确定选哪个？选 `universal`。它下载起来大一些，但在所有设备上都能用。
 
-## Install
+## 安装
 
-Android TV will not install an app from a file until you allow it. The prompt appears the
-first time and points at the right settings screen.
+Android TV 默认不允许安装来自文件的应用。第一次安装时会弹出提示，并直接指向对应的设置页面。
 
-**With a file manager or sideload app** such as Downloader or Send Files to TV: copy the
-APK across, open it, and accept the install prompt.
+**用文件管理器或投送工具**，例如 Downloader 或 Send Files to TV：把 APK 传到电视上，打开
+它，同意安装提示。
 
-**With adb**, from a computer on the same network:
+**用 adb**，在同一网络的电脑上执行：
 
 ```bash
-adb connect <tv-ip>:5555
-adb install -r bemplayer-0.1.4-universal.apk
+adb connect <电视的IP>:5555
+adb install -r bemplayer-0.1.5-universal.apk
 ```
 
-Then open Bemplayer from the Android TV home screen and enter your Emby server address,
-for example `http://192.168.1.10:8096`.
+然后在 Android TV 主界面打开 Bemplayer，填入你的 Emby 服务器地址，例如
+`http://192.168.1.10:8096`。
 
-## Updates
+## 更新
 
-Bemplayer checks for new versions on its own and can install them without a computer.
-Settings, then Updates, then Check now. Auto check is on by default and can be turned off
-on the same screen.
+Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，再进更新，然后点立即检查。自动检查
+默认开启，也可以在同一个页面关掉。
 
-The first update asks you to allow Bemplayer to install apps. That permission is what lets
-it replace itself, and the app takes you straight to the setting.
+第一次更新会请求允许 Bemplayer 安装应用。正是这个权限让它可以替换自己，应用会直接带你到那个
+设置项。
 
-## Using the remote
+## 遥控器按键
 
-| Key                | In the player                                      |
-| ------------------ | -------------------------------------------------- |
-| Centre, play/pause | Play or pause                                      |
-| Left, right        | Seek. Hold to go faster: 10s, 30s, 1m, 5m          |
-| Up                 | Playback diagnostics                               |
-| Down               | Audio and subtitle tracks                          |
-| Back               | Close the menu, then hide the controls, then leave |
+| 按键              | 在播放器中                                     |
+| ----------------- | ---------------------------------------------- |
+| 确定键、播放/暂停 | 播放或暂停                                     |
+| 左、右            | 快退快进。按住会加速：10 秒、30 秒、1 分、5 分 |
+| 上                | 播放诊断信息                                   |
+| 下                | 音轨与字幕                                     |
+| 返回              | 先关菜单，再收起控制栏，最后离开播放器         |
 
-The green button opens diagnostics from any screen, which is the quickest way to get
-information for a bug report.
+在其他界面，返回键是返回上一层，永远不会直接关掉应用。长按返回键才会询问是否退出，这是离开应
+用的唯一方式。
 
-## What is in this release
+绿色按键在任何界面都能打开诊断信息，这是拿到反馈问题所需资料最快的办法。
 
-Use the same logo file the source repo generates
+## 这个版本有什么
+
+chore: publish the front page in every language it is written in
+
+The release assets now include a README per language: README.md is the front
+page and each translation sits beside it as README.<lang>.md. Copy and commit
+all of them rather than only the front page.
 
 Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
 
-## Verifying a download
+## 校验下载的文件
 
 ```
-bc9d5e7f3f0d8dd21745bf45f2222d3183c8e85857d97bbc5b9dbf72b1d3e032  bemplayer-0.1.4-armeabi-v7a.apk
-345fea3bfbb118b0dc7237b29e37b8ff3620816069838c4d9d70dd7037540985  bemplayer-0.1.4-arm64-v8a.apk
-f8b69f055ae4f9e093f51131b9c52906c00677ce8104baa52961cff2be63ea3f  bemplayer-0.1.4-universal.apk
+db86c8074f44789773345fd3dc80a1e217c16bf567e29642165a5b40e741d663  bemplayer-0.1.5-armeabi-v7a.apk
+13a06290e735678fac6996278458fb89faa2ed65ce41d06efb97bd1a2b2b5d71  bemplayer-0.1.5-arm64-v8a.apk
+ffeb0324cb4281db25773736b09cb135d9747aefeaa24d7e8794e65f5e36ecc0  bemplayer-0.1.5-universal.apk
 ```
 
-Check one with `sha256sum bemplayer-0.1.4-universal.apk`.
+用 `sha256sum bemplayer-0.1.5-universal.apk` 校验其中一个。
 
-## Reporting a problem
+## 反馈问题
 
-Open an issue at https://github.com/liveinaus/bemplayer/issues. The most useful thing you can attach
-is a log export: press the green button on the remote, then Export, and the screen tells
-you where the files landed.
+到 https://github.com/liveinaus/bemplayer/issues 提交 issue。最有用的附件是日志导出：按遥控器上的绿色
+按键，然后选导出，屏幕上会告诉你文件放在哪里。
 
-Please include your device model, the Android version and the Emby server version.
+请一并附上设备型号、Android 版本和 Emby 服务器版本。
 
-## About this repository
+## 关于这个仓库
 
-This repository publishes builds only. It holds the releases, this page and
-`update.json`, which is the file the app polls to discover new versions. The source is
-kept in a separate private repository, and each release records the commit it was built
-from: `cb45161`.
+这个仓库只发布构建产物。它存放各个发行版、这个页面，以及 `update.json`，也就是应用用来发现新
+版本的那个文件。源代码放在另一个私有仓库里，每次发布都会记录它构建自哪个提交：
+`36df59d`。
 
-Version 0.1.4 is build 104.
+版本 0.1.5 是第 105 号构建。
