@@ -1,4 +1,4 @@
-# Bemplayer
+<img src="docs/logo.png" alt="Bemplayer" width="420">
 
 An Emby client for Android TV, built for a remote control rather than a touchscreen.
 
