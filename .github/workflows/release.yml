@@ -11,11 +11,21 @@ on:
   push:
     tags:
       - 'v*'
+      # The dev channel. Published as a prerelease, and never put on the front page.
+      - 'dev-*'
   workflow_dispatch:
     inputs:
       version:
         description: 'Version to release, without the v, for example 0.2.0'
         required: true
+      channel:
+        description: 'Which channel to publish to'
+        required: false
+        default: stable
+        type: choice
+        options:
+          - stable
+          - dev
       source_ref:
         description: 'Branch, tag or commit in the source repo'
         required: false
@@ -54,14 +64,25 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           INPUT_VERSION: ${{ inputs.version }}
           INPUT_SOURCE_REF: ${{ inputs.source_ref }}
+          INPUT_CHANNEL: ${{ inputs.channel }}
         run: |
           set -euo pipefail
 
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             VERSION="$INPUT_VERSION"
             SOURCE_REF="$INPUT_SOURCE_REF"
+            CHANNEL="${INPUT_CHANNEL:-stable}"
           else
-            VERSION="${GITHUB_REF_NAME#v}"
+            case "$GITHUB_REF_NAME" in
+              dev-*)
+                CHANNEL="dev"
+                VERSION="${GITHUB_REF_NAME#dev-}"
+                ;;
+              *)
+                CHANNEL="stable"
+                VERSION="${GITHUB_REF_NAME#v}"
+                ;;
+            esac
             SOURCE_REF=""
           fi
 
@@ -71,15 +92,25 @@ jobs:
           fi
 
           # major*10000 + minor*100 + patch, so 0.1.0 is 100 and every later
-          # release compares greater. Minor and patch must stay below 100.
+          # release compares greater. Minor and patch must stay below 100. A dev
+          # build shares the code of the release it precedes; what tells the two
+          # apart is the name it carries.
           IFS=. read -r MAJOR MINOR PATCH <<< "$VERSION"
           VERSION_CODE=$((MAJOR * 10000 + MINOR * 100 + PATCH))
+
+          if [ "$CHANNEL" = "dev" ]; then
+            TAG="dev-$VERSION"
+            BUILD_VERSION="$VERSION-dev"
+          else
+            TAG="v$VERSION"
+            BUILD_VERSION="$VERSION"
+          fi
 
           # Prefer a matching tag in the source repo, so a release is always
           # reproducible. Fall back to main when only this repo was tagged.
           if [ -z "$SOURCE_REF" ]; then
-            if git ls-remote --tags "https://x-access-token:${SOURCE_TOKEN}@github.com/${SOURCE_REPO}.git" "refs/tags/v${VERSION}" | grep -q .; then
-              SOURCE_REF="v${VERSION}"
+            if git ls-remote --tags "https://x-access-token:${SOURCE_TOKEN}@github.com/${SOURCE_REPO}.git" "refs/tags/${TAG}" | grep -q .; then
+              SOURCE_REF="$TAG"
             else
               SOURCE_REF="main"
             fi
@@ -89,10 +120,12 @@ jobs:
             echo "version=$VERSION"
             echo "version_code=$VERSION_CODE"
             echo "source_ref=$SOURCE_REF"
-            echo "tag=v$VERSION"
+            echo "tag=$TAG"
+            echo "channel=$CHANNEL"
+            echo "build_version=$BUILD_VERSION"
           } >> "$GITHUB_OUTPUT"
 
-          echo "Releasing $VERSION (build $VERSION_CODE) from $SOURCE_REPO@$SOURCE_REF"
+          echo "Releasing $BUILD_VERSION (build $VERSION_CODE) from $SOURCE_REPO@$SOURCE_REF"
 
       - name: Check out the private source
         uses: actions/checkout@v4
@@ -293,7 +326,7 @@ jobs:
           # it from src/update/manifest.ts, which points at this repo's releases.
           ./android/gradlew -p android :app:assembleRelease \
             -PrequireSigning=true \
-            -PversionName='${{ steps.version.outputs.version }}' \
+            -PversionName='${{ steps.version.outputs.build_version }}' \
             -PversionCode='${{ steps.version.outputs.version_code }}'
 
       - name: Collect release notes
@@ -341,6 +374,7 @@ jobs:
             --template source/docs/release-readme-template.md \
             --version '${{ steps.version.outputs.version }}' \
             --version-code '${{ steps.version.outputs.version_code }}' \
+            --channel '${{ steps.version.outputs.channel }}' \
             --repo '${{ github.repository }}' \
             --source-sha "$SOURCE_SHA" \
             --notes-file '${{ steps.notes.outputs.path }}'
@@ -359,16 +393,29 @@ jobs:
             exit 1
           fi
 
+          # A dev build is a prerelease, which is what keeps it out of the
+          # releases/latest URL that every stable install reads.
+          PRERELEASE=""
+          if [ '${{ steps.version.outputs.channel }}' = 'dev' ]; then
+            PRERELEASE="--prerelease"
+          else
+            PRERELEASE="--latest"
+          fi
+
           gh release create "$TAG" \
             --repo '${{ github.repository }}' \
-            --title "Bemplayer ${{ steps.version.outputs.version }}" \
+            $PRERELEASE \
+            --title "Bemplayer ${{ steps.version.outputs.build_version }}" \
             --notes-file '${{ steps.notes.outputs.path }}' \
             "$RUNNER_TEMP"/assets/*.apk \
             "$RUNNER_TEMP/assets/update.json"
 
       # Only now do the download URLs in the manifest resolve, so this comes
       # after the release is published, never before.
+      # Stable only. The front page tells someone arriving at the repo what to
+      # download, and that is never a dev build.
       - name: Update the front page and the update manifest
+        if: steps.version.outputs.channel == 'stable'
         working-directory: public
         run: |
           set -euo pipefail
@@ -410,7 +457,7 @@ jobs:
         if: always()
         run: |
           {
-            echo "### Bemplayer ${{ steps.version.outputs.version }}"
+            echo "### Bemplayer ${{ steps.version.outputs.build_version }} (${{ steps.version.outputs.channel }})"
             echo
             echo "- Build ${{ steps.version.outputs.version_code }}"
             echo "- Source \`${{ env.SOURCE_REPO }}@${{ steps.version.outputs.source_ref }}\`"
