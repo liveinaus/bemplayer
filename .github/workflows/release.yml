@@ -102,20 +102,40 @@ jobs:
           token: ${{ secrets.SOURCE_REPO_TOKEN }}
           path: source
 
-      - name: Set up JDK 17
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: source/package-lock.json
+
+      - name: Install dependencies
+        working-directory: source
+        run: npm ci
+
+      # Format, lint, typecheck and the unit tests: the same gate a workstation
+      # runs, so a release is never published on code that would fail locally.
+      - name: Checks
+        working-directory: source
+        run: npm run check
+
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
 
+      # The Gradle wrapper in android/ decides the version; this is for caching.
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.9'
 
-      - name: Unit tests
+      # The APK is a shell around the web app, and cap sync is what copies it in
+      # and writes the plugin project the Gradle build depends on.
+      - name: Build the web app
         working-directory: source
-        run: gradle test
+        run: |
+          npm run build
+          npx cap sync android
 
       - name: Build signed APKs
         working-directory: source
@@ -269,11 +289,12 @@ jobs:
           export BEMPLAYER_KEY_ALIAS="$ALIAS"
           export BEMPLAYER_KEY_PASSWORD="$KEY_PASS"
 
-          gradle :app:assembleRelease \
+          # The update manifest URL is no longer a build constant: the app reads
+          # it from src/update/manifest.ts, which points at this repo's releases.
+          ./android/gradlew -p android :app:assembleRelease \
             -PrequireSigning=true \
             -PversionName='${{ steps.version.outputs.version }}' \
-            -PversionCode='${{ steps.version.outputs.version_code }}' \
-            -PupdateManifestUrl='https://raw.githubusercontent.com/${{ github.repository }}/main/update.json'
+            -PversionCode='${{ steps.version.outputs.version_code }}'
 
       - name: Collect release notes
         id: notes
@@ -315,7 +336,7 @@ jobs:
           set -euo pipefail
           SOURCE_SHA="$(git -C source rev-parse HEAD)"
           python3 source/scripts/release_assets.py \
-            --apk-dir source/app/build/outputs/apk/release \
+            --apk-dir source/android/app/build/outputs/apk/release \
             --out-dir "$RUNNER_TEMP/assets" \
             --template source/docs/release-readme-template.md \
             --version '${{ steps.version.outputs.version }}' \
