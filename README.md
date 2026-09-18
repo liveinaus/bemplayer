@@ -4,16 +4,16 @@
 
 一款为 Android TV 打造的 Emby 客户端，为遥控器而设计，而不是触摸屏。
 
-**最新版本 0.1.7**，发布于 2026-09-17。需要 Android 6.0
+**最新版本 0.1.8**，发布于 2026-09-18。需要 Android 6.0
 或更高版本（API 23）。
 
 ## 下载
 
 | 下载 | 适合 | 大小 |
 | --- | --- | --- |
-| [armeabi-v7a](https://github.com/liveinaus/bemplayer/releases/download/v0.1.7/bemplayer-0.1.7-armeabi-v7a.apk) | 多数 Android TV 盒子和电视棒，包括较老的 Fire TV | 9.4 MB |
-| [arm64-v8a](https://github.com/liveinaus/bemplayer/releases/download/v0.1.7/bemplayer-0.1.7-arm64-v8a.apk) | 较新的 64 位设备、Shield TV、近几代 Fire TV 和 Chromecast | 10.4 MB |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.1.7/bemplayer-0.1.7-universal.apk) | 所有设备都能用，下载大一些。拿不准就选它 | 15.7 MB |
+| [armeabi-v7a](https://github.com/liveinaus/bemplayer/releases/download/v0.1.8/bemplayer-0.1.8-armeabi-v7a.apk) | 多数 Android TV 盒子和电视棒，包括较老的 Fire TV | 9.8 MB |
+| [arm64-v8a](https://github.com/liveinaus/bemplayer/releases/download/v0.1.8/bemplayer-0.1.8-arm64-v8a.apk) | 较新的 64 位设备、Shield TV、近几代 Fire TV 和 Chromecast | 10.8 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.1.8/bemplayer-0.1.8-universal.apk) | 所有设备都能用，下载大一些。拿不准就选它 | 16.1 MB |
 
 不确定选哪个？选 `universal`。它下载起来大一些，但在所有设备上都能用。
 
@@ -28,7 +28,7 @@ Android TV 默认不允许安装来自文件的应用。第一次安装时会弹
 
 ```bash
 adb connect <电视的IP>:5555
-adb install -r bemplayer-0.1.7-universal.apk
+adb install -r bemplayer-0.1.8-universal.apk
 ```
 
 然后在 Android TV 主界面打开 Bemplayer，填入你的 Emby 服务器地址，例如
@@ -59,17 +59,17 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 ## 这个版本有什么
 
-Publish v0.1.6
+Publish v0.1.7
 
 ## 校验下载的文件
 
 ```
-644711f6a712582dade6e435a5b03cab59d2f1e2df24f58ad9ce977f4b9e66f6  bemplayer-0.1.7-armeabi-v7a.apk
-bcbc3664351ab3b3246c74b7dad8518553b3ae6f21fb034cfb1a5312b624451e  bemplayer-0.1.7-arm64-v8a.apk
-35a204b85073fb88a204db7951b9cb27dda3eeb000f8299c9d0b036bebc8fdb7  bemplayer-0.1.7-universal.apk
+ab5d51b33953eda1ac252817959f25b140f0feae0014fae69a18076c77a33b05  bemplayer-0.1.8-armeabi-v7a.apk
+c1660f1078970b7381212400ce124ff6eef57d4360bf479cf526b135c147c0a0  bemplayer-0.1.8-arm64-v8a.apk
+9150d57f0005943b67bf999dc3051d0c8526f7300ebf64dc505f13ca6361ef53  bemplayer-0.1.8-universal.apk
 ```
 
-用 `sha256sum bemplayer-0.1.7-universal.apk` 校验其中一个。
+用 `sha256sum bemplayer-0.1.8-universal.apk` 校验其中一个。
 
 ## 反馈问题
 
@@ -82,6 +82,6 @@ bcbc3664351ab3b3246c74b7dad8518553b3ae6f21fb034cfb1a5312b624451e  bemplayer-0.1.
 
 这个仓库只发布构建产物。它存放各个发行版、这个页面，以及 `update.json`，也就是应用用来发现新
 版本的那个文件。源代码放在另一个私有仓库里，每次发布都会记录它构建自哪个提交：
-`bab7f44`。
+`8002edc`。
 
-版本 0.1.7 是第 107 号构建。
+版本 0.1.8 是第 108 号构建。
