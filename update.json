@@ -1,27 +1,27 @@
 {
-  "versionCode": 208,
-  "versionName": "0.2.8",
+  "versionCode": 209,
+  "versionName": "0.2.9",
   "channel": "stable",
-  "notes": "Publish v0.2.7",
+  "notes": "Publish v0.2.8",
   "mandatory": false,
   "minSdk": 23,
   "releasedAt": "2026-09-18",
-  "sourceCommit": "98ace31e44b32cc98edde9243cb4bddc67590bf8",
+  "sourceCommit": "269b5074b1883d01839e52d2b245c6df2155bfcd",
   "artifacts": {
     "armeabi-v7a": {
-      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.2.8/bemplayer-0.2.8-armeabi-v7a.apk",
-      "sha256": "56057341232c3889c315ae25f2deb26ca209b5464a19d8ac52b86ea915d79746",
-      "sizeBytes": 10280755
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.2.9/bemplayer-0.2.9-armeabi-v7a.apk",
+      "sha256": "fc4531737d7d8e8a6dc2d80c8b616b3a040a8e80a01c8a70df1dd270867c7768",
+      "sizeBytes": 10282239
     },
     "arm64-v8a": {
-      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.2.8/bemplayer-0.2.8-arm64-v8a.apk",
-      "sha256": "3244486f21c003a85d83cdc1ea89ef001808a21d909a2fccc43eddb7e185a9e0",
-      "sizeBytes": 11334389
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.2.9/bemplayer-0.2.9-arm64-v8a.apk",
+      "sha256": "ec970cb38599881f7cd17151541c978aad7195b352989c757e2cbf77ffbd4e6f",
+      "sizeBytes": 11335873
     },
     "universal": {
-      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.2.8/bemplayer-0.2.8-universal.apk",
-      "sha256": "ae177b6cf0a283c08bedafcef37be23666e78d7eb523c0b9f03df7c7d299f110",
-      "sizeBytes": 16889087
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.2.9/bemplayer-0.2.9-universal.apk",
+      "sha256": "774e49db7c980f3e1020b7802015ba1afec2f30f2ebbd87f87f117c0f655a4d2",
+      "sizeBytes": 16890571
     }
   }
 }
