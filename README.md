@@ -4,18 +4,16 @@
 
 一款为 Android TV 打造的 Emby 客户端，为遥控器而设计，而不是触摸屏。
 
-**最新版本 0.3.3**，发布于 2026-09-19。需要 Android 6.0
-或更高版本（API 23）。
+**最新版本 0.5.0**，发布于 2026-09-19。需要 Android 7.0
+或更高版本（API 24）。
 
 ## 下载
 
 | 下载 | 适合 | 大小 |
 | --- | --- | --- |
-| [armeabi-v7a](https://github.com/liveinaus/bemplayer/releases/download/v0.3.3/bemplayer-0.3.3-armeabi-v7a.apk) | 多数 Android TV 盒子和电视棒，包括较老的 Fire TV | 9.8 MB |
-| [arm64-v8a](https://github.com/liveinaus/bemplayer/releases/download/v0.3.3/bemplayer-0.3.3-arm64-v8a.apk) | 较新的 64 位设备、Shield TV、近几代 Fire TV 和 Chromecast | 10.8 MB |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.3.3/bemplayer-0.3.3-universal.apk) | 所有设备都能用，下载大一些。拿不准就选它 | 16.1 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.5.0/bemplayer-0.5.0-universal.apk) | 适用于所有 Android TV 设备 | 16.2 MB |
 
-不确定选哪个？选 `universal`。它下载起来大一些，但在所有设备上都能用。
+只有一个安装包，所有设备都用它。
 
 ## 安装
 
@@ -28,7 +26,7 @@ Android TV 默认不允许安装来自文件的应用。第一次安装时会弹
 
 ```bash
 adb connect <电视的IP>:5555
-adb install -r bemplayer-0.3.3-universal.apk
+adb install -r bemplayer-0.5.0-universal.apk
 ```
 
 然后在 Android TV 主界面打开 Bemplayer，填入你的 Emby 服务器地址，例如
@@ -59,17 +57,17 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 ## 这个版本有什么
 
-Publish v0.3.2
+Publish v0.3.3
+
+以前每个版本改了什么，见 [更新日志](CHANGELOG.md)。
 
 ## 校验下载的文件
 
 ```
-7f743c5fb3023288a6557fda2fea9b1ea283a8a45afbbe1e1939cecbfd125f0c  bemplayer-0.3.3-armeabi-v7a.apk
-92efb4194ac654aaa72e101e18f23ae3b44a306beaa37cccf3919aed56ab6622  bemplayer-0.3.3-arm64-v8a.apk
-493f5eb9e71d8c1f0325471e1350f6e992cff0bfe9cb6d7dea49af6c8154eafa  bemplayer-0.3.3-universal.apk
+98e359bc5411dd796e100a0b963c46719f4551f114c94284ee3a9bb84fd478fe  bemplayer-0.5.0-universal.apk
 ```
 
-用 `sha256sum bemplayer-0.3.3-universal.apk` 校验其中一个。
+用 `sha256sum bemplayer-0.5.0-universal.apk` 校验其中一个。
 
 ## 反馈问题
 
@@ -82,6 +80,6 @@ Publish v0.3.2
 
 这个仓库只发布构建产物。它存放各个发行版、这个页面，以及 `update.json`，也就是应用用来发现新
 版本的那个文件。源代码放在另一个私有仓库里，每次发布都会记录它构建自哪个提交：
-`5cf47ed`。
+`5de1e64`。
 
-版本 0.3.3 是第 303 号构建。
+版本 0.5.0 是第 500 号构建。
