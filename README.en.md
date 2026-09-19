@@ -4,16 +4,16 @@
 
 An Emby client for Android TV, built for a remote control rather than a touchscreen.
 
-**Latest version 0.3.1**, released 2026-09-19. Requires Android 6.0 or newer
+**Latest version 0.3.2**, released 2026-09-19. Requires Android 6.0 or newer
 (API 23).
 
 ## Download
 
 | Download | Best for | Size |
 | --- | --- | --- |
-| [armeabi-v7a](https://github.com/liveinaus/bemplayer/releases/download/v0.3.1/bemplayer-0.3.1-armeabi-v7a.apk) | Most Android TV boxes and sticks, including older Fire TV | 9.8 MB |
-| [arm64-v8a](https://github.com/liveinaus/bemplayer/releases/download/v0.3.1/bemplayer-0.3.1-arm64-v8a.apk) | Newer 64 bit devices, Shield TV, recent Fire TV and Chromecast | 10.8 MB |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.3.1/bemplayer-0.3.1-universal.apk) | Works everywhere, larger download. Use if unsure | 16.1 MB |
+| [armeabi-v7a](https://github.com/liveinaus/bemplayer/releases/download/v0.3.2/bemplayer-0.3.2-armeabi-v7a.apk) | Most Android TV boxes and sticks, including older Fire TV | 9.8 MB |
+| [arm64-v8a](https://github.com/liveinaus/bemplayer/releases/download/v0.3.2/bemplayer-0.3.2-arm64-v8a.apk) | Newer 64 bit devices, Shield TV, recent Fire TV and Chromecast | 10.8 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.3.2/bemplayer-0.3.2-universal.apk) | Works everywhere, larger download. Use if unsure | 16.1 MB |
 
 Not sure which one? Take `universal`. It is a larger download and works on everything.
 
@@ -29,7 +29,7 @@ APK across, open it, and accept the install prompt.
 
 ```bash
 adb connect <tv-ip>:5555
-adb install -r bemplayer-0.3.1-universal.apk
+adb install -r bemplayer-0.3.2-universal.apk
 ```
 
 Then open Bemplayer from the Android TV home screen and enter your Emby server address,
@@ -62,17 +62,17 @@ information for a bug report.
 
 ## What is in this release
 
-Publish v0.3.0
+Publish v0.3.1
 
 ## Verifying a download
 
 ```
-7e1edad39057be1e7de97f435eed096126b829aa812d420cab3b176411f21c50  bemplayer-0.3.1-armeabi-v7a.apk
-e79f91d07ec4bf08fd2d07501fd0b4df5a9e6ed5cf82b62039ff2b58eae252a5  bemplayer-0.3.1-arm64-v8a.apk
-aaf24368be28af27e19ac73aeda529c978298798a2a6aa371e4f56960e76864a  bemplayer-0.3.1-universal.apk
+b5376a78d22f2982d8cfd839f4718517687527e47c58577d13f575f1cd4d6245  bemplayer-0.3.2-armeabi-v7a.apk
+fb45fd2d7695bd6b3153a92dd4cadfeda3ce35bbcfddceced6b0ff881d7a2581  bemplayer-0.3.2-arm64-v8a.apk
+83ae2395869863d4e733c85294ef492b600da903176c3eb764be99c12dcac6e1  bemplayer-0.3.2-universal.apk
 ```
 
-Check one with `sha256sum bemplayer-0.3.1-universal.apk`.
+Check one with `sha256sum bemplayer-0.3.2-universal.apk`.
 
 ## Reporting a problem
 
@@ -87,6 +87,6 @@ Please include your device model, the Android version and the Emby server versio
 This repository publishes builds only. It holds the releases, this page and
 `update.json`, which is the file the app polls to discover new versions. The source is
 kept in a separate private repository, and each release records the commit it was built
-from: `56bd279`.
+from: `a4f4d55`.
 
-Version 0.3.1 is build 301.
+Version 0.3.2 is build 302.
