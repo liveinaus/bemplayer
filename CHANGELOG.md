@@ -11,6 +11,20 @@ own section.
 
 ## [Unreleased]
 
+## [0.6.1] - 2026-09-21
+
+### 变更 / Changed
+
+- 播放器：弹幕相关按钮统一为带圈的 D 图标，不再带文字；选集改为长按下键（短按下键到达第二行按钮，按上键回到第一行）。 / Player: the danmaku buttons are a D in a ring with no text; the episodes open on a held Down, while a tap of Down reaches the bar's second row of buttons and Up returns to the first.
+
+### 修复 / Fixed
+
+- 切换服务器后按返回，会回到上一个服务器的页面并报错（如「Could not load item … failed with 500」）；现在切换、登录后的返回止于首页。 / Back after switching servers reopened the previous server's screens and failed (such as "Could not load item … failed with 500"); after a switch or a sign in, Back now stops at home.
+- 服务器超过四个时切换列表是两列，方向键无法从左列移到右列；现已修复。 / With more than four servers the switcher is two columns, and the D-pad could not move from the left column to the right; fixed.
+- 检查更新时，版本说明很长会把「安装并重启」按钮挤到屏幕外；现在只显示前几行，「展开全文」可以看全部（按上到达，按下逐段滚动），按钮始终在屏幕上。 / Long release notes on a found update pushed the Install button off the screen; the notes now show a few lines with a Read more (Up reaches it, Down scrolls the opened notes), and the button stays on screen.
+
+## [0.6.0] - 2026-09-20
+
 ### 新增 / Added
 
 - 弹幕：视频上方可显示弹幕，控制栏按钮开关，选择会被记住。支持 Bilibili 风格的 XML 和常见的 JSON 格式。 / Danmaku: comments can scroll over the video, toggled from a bar button and remembered. Bilibili-style XML and the common JSON formats are read.
@@ -30,6 +44,12 @@ own section.
 - 一个标题有多个文件时，详情页的「版本」按钮可按容器和码率选择要播放的文件。 / A title held as more than one file has a Version button on its page to pick which one plays, named by container and bitrate.
 - 电视上可以切换音轨和字幕；引擎无法切换音轨时会从服务器以所选音轨重新播放。 / Audio and subtitle switching works on a TV; where the engine cannot switch audio itself, playback restarts from the server on the chosen track.
 - 电视的日志页有「在手机上查看」按钮，扫码后手机上就能读取和复制日志。 / The Logs screen on a TV has a Show on phone button: scan the code and the phone can read and copy the log.
+- 设置新增「备份」页：所有服务器（含登录凭据）和全部设置可导出为一份加密备份，密码自设；导入时可选择合并或替换设置，服务器只会并入不会移除。电视上扫码后可在手机上完成导出和导入，也可用文件或粘贴文本。 / Settings has a Backup tab: every server, sign in and all, and every setting export as one encrypted backup under a password of your choosing, and import on another TV, merging or replacing the settings; servers are only ever added. On a TV, a phone does both through the code on screen; a file or the pasted text works too.
+- 搜索：最近搜索过的关键词列在搜索框下方（最多十个），按一下就能再搜，可一键清除。 / Search: the last ten keywords sit under the field, one press to search again, and can be cleared.
+- 搜索：搜索框右侧有二维码，手机扫码后可以在手机上输入要搜索的内容。 / Search: a QR code beside the field lets a phone type the search.
+- 显示大小新增「特小」和「小」两档，共五档；原来的三档换了名字，大小不变。 / Two display sizes below the old smallest, five in all; the three that were there kept their size under new names.
+- 服务器可以在设置里上下调整顺序，切换列表和搜索范围都按这个顺序；超过四个服务器时，切换列表改为两列网格。 / Servers can be arranged in Settings, and the switcher and the search scope follow that order; past four servers the switcher becomes a two-column grid.
+- 服务器图标：管理员在 Emby 自定义 CSS 里指定了 logo 的服务器，会以它的 logo 作为图标。 / A server whose administrator named a logo in Emby's custom CSS is shown with that logo as its icon.
 
 ### 变更 / Changed
 
@@ -37,6 +57,10 @@ own section.
 - 播放器：控制栏隐藏时，按确定键呼出控制栏并暂停，按「下」呼出控制栏但继续播放。 / Player: with the bar hidden, OK brings it up and pauses, Down brings it up and keeps playing.
 - 连续播放时提前准备下一集，两集之间不再有明显的空档。 / The next item in the queue is prepared ahead of time, so there is no longer a gap between episodes.
 - 播放服务器给出的地址，而不是自行拼接的地址，某些代理后的服务器因此可以播放了。 / Playback uses the stream URL the server advertises rather than one built locally, which makes servers behind certain proxies play.
+- 搜索改为按确定键或「搜索」按钮后才开始，不再边输入边搜索。 / A search runs when it is submitted, with OK or the Search button, and no longer as it is typed.
+- 拼音首字母搜索更准确：服务器返回的结果里，名字并不包含这些首字母的会被去掉；整个标题匹配的排最前，其次是开头匹配的，再次是中间匹配的；剧集按剧名匹配，排在剧和电影之后。 / Pinyin initials are more exact: what a server returns is dropped when none of its names holds the initials, and what is left is ordered whole title first, then a start, then inside, with episodes matched by their series and listed after titles.
+- 设置页：每组设置分框显示，一眼能看出分界；「关于」独立成页；更新移到「系统」页顶部，「检查更新」和「其他版本」并排。 / Settings: each group is boxed so the eye can tell where one ends; About is its own tab; Updates lead the System tab, with Check for updates and Other versions side by side.
+- 播放器控制栏：状态信息面板更详细。 / Player bar: the info panel says more about what is playing.
 
 ### 修复 / Fixed
 
@@ -46,6 +70,9 @@ own section.
 - 开发用代理：服务器在响应中途断开时，整个开发服务器会随之退出，此后页面上的每个请求都显示「无法连接」；现在只有那一个请求失败。错误信息也改为显示服务器地址而不是代理路径，并在开发服务器本身没有回应时直接说明。 / Dev proxy: a server dropping the connection mid-response took the whole dev server down, after which every request on the page said it could not be reached; now only that one request fails. The message names the server rather than the proxy path, and says so when it is the dev server itself that did not answer.
 - 已添加服务器时，打开应用有时会停在欢迎页而不是主页；现在总是直接进入主页。 / With a server already added, launching sometimes stopped on the welcome screen instead of home; it now always goes straight to home.
 - 搜索页上，从搜索框按「下」现在会到达搜索范围开关，电视上不再被键盘挡住而跳到侧边栏。 / On the search screen, Down from the search field reaches the scope toggles instead of jumping past them to the sidebar on a TV.
+- 索引指针有误的 MKV（其他播放器能放，电视上报 "Element 187 must be in a Cues"）现在能播放，也能定位；播放器会跳过错误的索引直接读取。 / An MKV whose index pointer is wrong, which other players open but a TV refused with "Element 187 must be in a Cues", now plays and seeks: the player reads past the bad index.
+- 剧集列表还没从服务器到达时按「下」，选集列表打不开；现在会等列表到达再打开。 / Down while the series' episodes were still loading opened nothing; the list now waits for them.
+- GitHub 上的版本说明显示的是上一版的提交信息，而不是更新内容；发布脚本已改正，旧版本的说明也已补上。 / The release notes on GitHub showed the previous release's commit message instead of what changed; the release script is fixed and the earlier releases' notes filled in.
 
 ## [0.5.0] - 2026-09-20
 
