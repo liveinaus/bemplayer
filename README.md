@@ -7,6 +7,25 @@
 **最新版本 0.5.0**，发布于 2026-09-19。需要 Android 7.0
 或更高版本（API 24）。
 
+## 截图
+
+在电视上的样子（1080p）。
+
+<table>
+<tr>
+<td><img src="docs/screenshots/zh/home.jpg" alt="首页" width="460"></td>
+<td><img src="docs/screenshots/zh/library.jpg" alt="媒体库" width="460"></td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/zh/detail.jpg" alt="详情页" width="460"></td>
+<td><img src="docs/screenshots/zh/player.jpg" alt="播放器与选集" width="460"></td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/zh/search.jpg" alt="搜索" width="460"></td>
+<td><img src="docs/screenshots/zh/settings.jpg" alt="设置" width="460"></td>
+</tr>
+</table>
+
 ## 下载
 
 | 下载 | 适合 | 大小 |

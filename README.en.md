@@ -7,6 +7,25 @@ An Emby client for Android TV, built for a remote control rather than a touchscr
 **Latest version 0.5.0**, released 2026-09-19. Requires Android 7.0 or newer
 (API 24).
 
+## Screenshots
+
+On a television, at 1080p.
+
+<table>
+<tr>
+<td><img src="docs/screenshots/en/home.jpg" alt="Home" width="460"></td>
+<td><img src="docs/screenshots/en/library.jpg" alt="A library" width="460"></td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/en/detail.jpg" alt="A title" width="460"></td>
+<td><img src="docs/screenshots/en/player.jpg" alt="The player, with the episode list" width="460"></td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/en/search.jpg" alt="Search" width="460"></td>
+<td><img src="docs/screenshots/en/settings.jpg" alt="Settings" width="460"></td>
+</tr>
+</table>
+
 ## Download
 
 | Download | Best for | Size |
