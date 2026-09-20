@@ -1,5 +1,9 @@
 name: Release
 
+# Named after the tag rather than after the commit it points at, which is
+# always the previous release's "Publish" commit on this repo's main.
+run-name: Release ${{ inputs.version || github.ref_name }}
+
 # Builds run here, in the public repo, so they do not consume the private
 # repo's Actions minutes. The source is checked out from the private repo with
 # a read only token.
@@ -341,8 +345,17 @@ jobs:
           # Notes come from the first of these that has anything in it: the
           # workflow input, the tag in this repo, then the matching tag in the
           # source repo, which is where an annotated tag is usually written.
+          #
+          # Only an annotated tag has notes. A lightweight tag reads as the
+          # message of the commit it points at, which here is the previous
+          # release's "Publish" commit, and that is what every release used to
+          # say. The message is taken whole rather than as subject and body,
+          # which would fold the first paragraph onto one line.
           read_tag_body() {
-            git -C "$1" tag -l --format='%(contents:subject)%0a%0a%(contents:body)' "$TAG" 2>/dev/null || true
+            if [ "$(git -C "$1" cat-file -t "refs/tags/$TAG" 2>/dev/null)" != "tag" ]; then
+              return 0
+            fi
+            git -C "$1" tag -l --format='%(contents)' "$TAG" 2>/dev/null || true
           }
 
           has_text() {
@@ -423,10 +436,12 @@ jobs:
           # One page per language: README.md is the front page and each
           # translation sits beside it as README.<lang>.md.
           cp "$RUNNER_TEMP"/assets/README*.md .
+          # The changelog the front page links to, as it stands in the source.
+          cp ../source/CHANGELOG.md CHANGELOG.md
 
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add update.json README*.md
+          git add update.json README*.md CHANGELOG.md
 
           if git diff --cached --quiet; then
             echo "Nothing changed on the front page."
