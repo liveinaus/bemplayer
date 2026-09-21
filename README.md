@@ -4,7 +4,7 @@
 
 一款为 Android TV 打造的 Emby 客户端，为遥控器而设计，而不是触摸屏。
 
-**最新版本 0.6.1**，发布于 2026-09-20。需要 Android 7.0
+**最新版本 0.6.2**，发布于 2026-09-21。需要 Android 7.0
 或更高版本（API 24）。
 
 ## 截图
@@ -30,7 +30,7 @@
 
 | 下载 | 适合 | 大小 |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.1/bemplayer-0.6.1-universal.apk) | 适用于所有 Android TV 设备 | 19.2 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.2/bemplayer-0.6.2-universal.apk) | 适用于所有 Android TV 设备 | 19.3 MB |
 
 只有一个安装包，所有设备都用它。
 
@@ -45,7 +45,7 @@ Android TV 默认不允许安装来自文件的应用。第一次安装时会弹
 
 ```bash
 adb connect <电视的IP>:5555
-adb install -r bemplayer-0.6.1-universal.apk
+adb install -r bemplayer-0.6.2-universal.apk
 ```
 
 然后在 Android TV 主界面打开 Bemplayer，填入你的 Emby 服务器地址，例如
@@ -61,13 +61,13 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 ## 遥控器按键
 
-| 按键              | 在播放器中                                     |
-| ----------------- | ---------------------------------------------- |
-| 确定键、播放/暂停 | 播放或暂停                                     |
-| 左、右            | 快退快进。按住会加速：10 秒、30 秒、1 分、5 分 |
-| 上                | 回到上一行按钮；在最上一行时收起控制栏         |
-| 下                | 到达下一行按钮；长按打开选集                   |
-| 返回              | 先关菜单，再收起控制栏，最后离开播放器         |
+| 按键              | 在播放器中                                             |
+| ----------------- | ------------------------------------------------------ |
+| 确定键、播放/暂停 | 播放或暂停                                             |
+| 左、右            | 快退快进。按住会加速：10 秒、30 秒、1 分、5 分         |
+| 上                | 回到上一行按钮；在最上一行时收起控制栏                 |
+| 下                | 到达下一行按钮；再按展开剧集缩略图条；长按打开选集列表 |
+| 返回              | 先关菜单或二维码，再收起剧集条，最后询问是否停止播放   |
 
 在其他界面，返回键是返回上一层，永远不会直接关掉应用。长按返回键才会询问是否退出，这是离开应
 用的唯一方式。
@@ -76,25 +76,30 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 ## 这个版本有什么
 
+### 新增 / Added
+
+- 播放器：短按下键到按钮最下一行之外，会在控制栏下方展开本剧全部剧集的缩略图条（和剧集页一样），落在正在播放的一集上，左右浏览、中键切换；上键或返回收起。长按下键的选集列表保持不变。 / Player: a tap of Down off the bottom row of buttons opens a strip of the series' episode stills under the controls, as the series screen shows them, on the one playing; Left and Right browse it, OK switches, Up or Back puts it away. The list a held Down opens is unchanged.
+- 播放器：右上角时间旁显示实时下载速度，即此刻真正从服务器收到的数据速率；不足 1 Mbps 时以 kbps 显示，没有数据到达时显示 0 kbps。电视上此前一直不显示，已修复。 / Player: the live download speed sits beside the clock in the top corner, the bytes actually arriving from the server at that moment; under a megabit it is written in kbps, and nothing arriving reads 0 kbps. On a TV it never showed before; fixed.
+
 ### 变更 / Changed
 
-- 播放器：弹幕相关按钮统一为带圈的 D 图标，不再带文字；选集改为长按下键（短按下键到达第二行按钮，按上键回到第一行）。 / Player: the danmaku buttons are a D in a ring with no text; the episodes open on a held Down, while a tap of Down reaches the bar's second row of buttons and Up returns to the first.
+- 播放器：按返回不再直接退出播放，而是先询问「停止播放？」，中键确认离开，再按返回则继续看；控制栏上的返回按钮同样询问。播放尚未开始或已出错时直接离开。 / Player: Back no longer leaves the video outright; it asks "Stop watching?", OK leaves and Back again stays, and the bar's Back button asks too. A stream that never started or has failed is left without asking.
 
 ### 修复 / Fixed
 
-- 切换服务器后按返回，会回到上一个服务器的页面并报错（如「Could not load item … failed with 500」）；现在切换、登录后的返回止于首页。 / Back after switching servers reopened the previous server's screens and failed (such as "Could not load item … failed with 500"); after a switch or a sign in, Back now stops at home.
-- 服务器超过四个时切换列表是两列，方向键无法从左列移到右列；现已修复。 / With more than four servers the switcher is two columns, and the D-pad could not move from the left column to the right; fixed.
-- 检查更新时，版本说明很长会把「安装并重启」按钮挤到屏幕外；现在只显示前几行，「展开全文」可以看全部（按上到达，按下逐段滚动），按钮始终在屏幕上。 / Long release notes on a found update pushed the Install button off the screen; the notes now show a few lines with a Read more (Up reaches it, Down scrolls the opened notes), and the button stays on screen.
+- 播放器：从手机导入弹幕的二维码弹出后无法关闭，按返回会直接退出播放；现在按返回（或点击）关闭二维码，弹窗上也写明了。 / Player: the QR code for importing danmaku from a phone could not be dismissed, and Back left the video instead; Back (or a click) now closes it, and the card says so.
+- 播放器：长按下键打开选集后，按住期间的连按不再让高亮从正在播放的一集往下走。 / Player: the repeats of the held Down that opens the episodes no longer walk the highlight down off the one playing.
+- 播放器：控制栏显示期间按任意键都会重新计时，不会在浏览按钮或剧集条时中途消失。 / Player: any press while the bar is up keeps it up a while longer, so it no longer fades mid-way through walking the buttons or the episode strip.
 
 以前每个版本改了什么，见 [更新日志](CHANGELOG.md)。
 
 ## 校验下载的文件
 
 ```
-4358990d1c83d7f5f0f3f196180d46b8492a49f08621b150e69a76f60edfd9fb  bemplayer-0.6.1-universal.apk
+c70c024c60f4414b85cb078c1bd65e7de95d6be4a48748c8af15e4ea8d01947a  bemplayer-0.6.2-universal.apk
 ```
 
-用 `sha256sum bemplayer-0.6.1-universal.apk` 校验其中一个。
+用 `sha256sum bemplayer-0.6.2-universal.apk` 校验其中一个。
 
 ## 反馈问题
 
@@ -107,6 +112,6 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 这个仓库只发布构建产物。它存放各个发行版、这个页面，以及 `update.json`，也就是应用用来发现新
 版本的那个文件。源代码放在另一个私有仓库里，每次发布都会记录它构建自哪个提交：
-`585d413`。
+`2aa342c`。
 
-版本 0.6.1 是第 601 号构建。
+版本 0.6.2 是第 602 号构建。
