@@ -174,6 +174,24 @@ jobs:
           npm run build
           npx cap sync android
 
+      # The webview flavour carries Google's WebView as an asset, fetched from
+      # this repo's webview-<version> release and checked against the checksum
+      # in android/webview.json. While none is pinned, fetch does nothing and
+      # only slim is built, so a release can go out before the WebView has
+      # been uploaded.
+      - name: Fetch the bundled WebView
+        id: webview
+        working-directory: source
+        run: |
+          set -euo pipefail
+          python3 scripts/bundled_webview.py fetch
+          TASKS=":app:assembleSlimRelease"
+          if [ -f android/app/src/webview/assets/webview.apk ]; then
+            TASKS="$TASKS :app:assembleWebviewRelease"
+          fi
+          echo "tasks=$TASKS" >> "$GITHUB_OUTPUT"
+          echo "Building $TASKS"
+
       - name: Build signed APKs
         working-directory: source
         env:
@@ -328,7 +346,7 @@ jobs:
 
           # The update manifest URL is no longer a build constant: the app reads
           # it from src/update/manifest.ts, which points at this repo's releases.
-          ./android/gradlew -p android :app:assembleRelease \
+          ./android/gradlew -p android ${{ steps.webview.outputs.tasks }} \
             -PrequireSigning=true \
             -PversionName='${{ steps.version.outputs.build_version }}' \
             -PversionCode='${{ steps.version.outputs.version_code }}'
@@ -382,7 +400,7 @@ jobs:
           set -euo pipefail
           SOURCE_SHA="$(git -C source rev-parse HEAD)"
           python3 source/scripts/release_assets.py \
-            --apk-dir source/android/app/build/outputs/apk/release \
+            --apk-dir source/android/app/build/outputs/apk \
             --out-dir "$RUNNER_TEMP/assets" \
             --template source/docs/release-readme-template.md \
             --version '${{ steps.version.outputs.version }}' \

@@ -70,5 +70,9 @@ jobs:
           npm run build
           npx cap sync android
 
-      - name: Assemble debug
-        run: ./android/gradlew -p android :app:assembleDebug
+      # The slim flavour only: the webview flavour needs Google's WebView as an
+      # asset, which is fetched for a release and is not what this check is
+      # about. The unit tests are the native side's own, such as the user
+      # agent parse the pre-flight screen depends on.
+      - name: Assemble debug and run the native unit tests
+        run: ./android/gradlew -p android :app:assembleSlimDebug :app:testSlimDebugUnitTest
