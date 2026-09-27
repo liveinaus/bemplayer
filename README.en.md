@@ -4,7 +4,7 @@
 
 An Emby client for Android TV, built for a remote control rather than a touchscreen.
 
-**Latest version 0.6.14**, released 2026-09-24. Requires Android 7.0 or newer
+**Latest version 0.6.15**, released 2026-09-27. Requires Android 7.0 or newer
 (API 24).
 
 ## Screenshots
@@ -30,7 +30,7 @@ On a television, at 1080p.
 
 | Download | Best for | Size |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.14/bemplayer-0.6.14-universal.apk) | Works on every Android TV device | 19.4 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.15/bemplayer-0.6.15-universal.apk) | Works on every Android TV device | 19.4 MB |
 
 `universal` is the one to take: it works on every device. If Bemplayer opens with a screen
 saying the TV's WebView is too old, that screen says what can be done, and on a TV with
@@ -50,7 +50,7 @@ APK across, open it, and accept the install prompt.
 
 ```bash
 adb connect <tv-ip>:5555
-adb install -r bemplayer-0.6.14-universal.apk
+adb install -r bemplayer-0.6.15-universal.apk
 ```
 
 Then open Bemplayer from the Android TV home screen and enter your Emby server address,
@@ -79,41 +79,41 @@ Anywhere else, Back goes back one screen and never closes the app on its own. At
 screen with nothing behind it, Back asks whether to quit Bemplayer; holding Back leaves
 at once, without asking.
 
-The green button opens diagnostics from any screen, which is the quickest way to get
+The green button opens the logs from any screen (Settings › System › Logs on a remote
+without one), which is the quickest way to get
 information for a bug report.
 
 ## What is in this release
 
 ### 新增 / Added
 
-- 设置里多了「代理」页，可以设置一个 HTTP 代理（主机:端口，可选用户名和密码），应用的所有请求都经过它：Emby 服务器、视频、海报、字幕、弹幕和更新检查；本机和局域网地址不经过代理。「测试连接」会通过代理访问当前服务器并显示结果。WebView 太旧、自己不能走代理的电视（Chromium 72 以前，例如荣耀电视），海报和弹幕改由应用转发，同样经过代理。 / Settings has a Proxy tab for one HTTP proxy (host:port, with an optional username and password), which everything the app fetches goes through: the Emby server, the video, posters, subtitles, danmaku and update checks. This device and its own network are always reached directly. Test asks the current server for its details through the proxy and says how it went. On a TV whose WebView is too old to follow a proxy itself (before Chromium 72, such as the Honor sets), posters and danmaku are sent through the app instead, and so through the proxy too.
-- 代理也可以扫码在手机上填写：二维码在「代理」页左上角，键盘弹出也挡不住。手机上会带出现有的地址和用户名，密码不会发到手机上，留空即保留电视上已保存的；手机上也可以关闭代理。 / The proxy can be typed on a phone too, through a QR code at the top left of the Proxy tab, where the TV's keyboard cannot cover it. The phone is given the address and username already set; the saved password is never sent to it, so leaving it empty keeps the one on the TV. The phone can turn the proxy off as well.
+- 服务器可以有多条线路。手机登录页多了一个"其他线路"框，服务器公布的备用地址每行填一个；设置 › 服务器 › 线路可以用手机增删、调整顺序，也可以在电视上直接选一条。正在用的线路完全没有响应（连不上或超时）时，会按顺序问下一条线路是不是同一台服务器，是就换过去并一直用它，图片和播放也跟着换。服务器返回错误状态不会触发换线；所有线路都没响应后，一分钟内不再重试。 / A server can have several addresses. The phone sign-in page has an "Other addresses" box for the backups a server announces, one per line, and Settings › Servers › Addresses changes them from a phone, reorders them, or picks one on the TV. When the address in use gets no answer at all (refused or timed out), the next is asked whether it is the same server, and if so it takes over and stays in use, images and playback with it. A server answering with an error status never causes a switch, and once no address answers none is tried again for a minute.
+- 切换服务器列表里每个服务器都显示它有多少部电影和剧集。打开列表时向每个服务器问一次，用的是服务器自己记着的总数，不会遍历媒体库；一小时内再打开不会重复问。连不上的服务器不显示数字。 / The server switcher shows how many films and series each server has. Each server is asked once as the list opens, for the totals it already keeps, so no library is read through; opening it again within the hour asks nothing. A server that does not answer shows no figures.
 
 ### 变更 / Changed
 
-- 所有弹出窗口（菜单、确认框、切换服务器、播放器里的字幕/音轨/选集菜单和手机导入弹幕）都有了页眉和页脚：标题在页眉，操作和按键提示在页脚，两者用更深的底色，中间的内容更突出。切换服务器的「添加另一个服务器」移到了页脚。 / Every popup — the menus, the questions, the server switcher, and the player's subtitle, audio, episode and phone danmaku ones — has a header and a footer on a darker ground, the title in one and the actions and remote keys in the other, so the body between them stands out. The server switcher's "Add another server" is in its footer now.
+- 服务器多于六个时，切换服务器列表改为三列的卡片：名称和状态点在上，电影和剧集数量在下，不显示地址，这样十一个服务器在电视上一屏放得下，不用滚动。六个及以下时数量显示在名称右边，地址照旧。 / With more than six servers the switcher is three columns of tiles — the name and its dot, with the film and series counts beneath and no address — so eleven servers fit on a TV screen without scrolling. With six or fewer the counts sit at the right of the name and the address stays.
 
 ### 修复 / Fixed
 
-- 在电视上用遥控器「下」键移到输入框、弹出系统键盘后，应用会一直当作「下」键还按着，焦点不停往下跑，什么都输入不了，离开这一页也停不下来。原因是键盘把按键抬起的信号收走了。现在输入框一获得焦点，应用就不再替遥控器补发按住的按键。 / On a TV, moving onto a text field with Down and having the system keyboard open left the app treating Down as held: focus kept running down, nothing could be typed, and it went on after leaving the screen. The keyboard had taken the key's release. The app now stops repeating a held button for a remote as soon as a text field has focus.
-- 启动时显示大小总是默认值，要打开一次设置才变成自己选的，字体会突然变大或变小。语言、客户端标识和详细日志也一样，在此之前首页发给服务器的是默认标识。现在应用一启动就读取全部设置。 / The display size always opened at the default and only became the chosen one once Settings was opened, so the text jumped in size. The language, the client identity and verbose logging were the same, so until then home spoke to the server under the default identity. Every setting is now read as the app starts.
-- 显示大小不是「大」时，边栏的图标没有对齐：图标用的是固定像素，边栏和间距却随显示大小缩放。现在所有图标都随显示大小缩放，每一种大小下边栏图标都在同一条线上，其他页面的图标也和旁边的文字保持比例。 / At any display size other than Large the sidebar's icons were out of line: the icons were fixed pixels while the sidebar and its spacing scaled with the setting. Every icon scales with the display size now, so the sidebar's icons share one line at every size, and icons everywhere else keep in proportion with the text beside them.
-- 切换服务器列表是两列时，在右列按「下」会跳到左列。现在上下只在同一列里移动，右列最后一个再往下是「添加另一个服务器」。 / In the server switcher's two columns, Down from the right column could jump across to the left one. Up and down keep to the column now, and Down past the last server on the right goes to "Add another server".
+- 遥控器绿色按钮其实从来没有接上，按了什么都不会发生。现在在任意界面（包括播放中）按它都会打开运行日志；遥控器没有绿色按钮时，设置 › 系统 › 运行日志 是同一个界面。 / The green remote button was never actually wired up and did nothing. It now opens the logs from any screen, playback included; on a remote without one, Settings › System › Logs is the same screen.
+- 有的电视把 E-AC3（杜比数字+）解成 5.1 声道后拒绝打开音频输出，报 ERROR_CODE_AUDIO_TRACK_INIT_FAILED，画面有、声音没有。现在遇到这种情况会自动重试：先关掉隧道播放，还不行就把声音缩混成立体声；本次运行里之后的影片直接沿用。 / Some televisions decode E-AC3 (Dolby Digital Plus) to 5.1 and then refuse to open an audio output for it, reporting ERROR_CODE_AUDIO_TRACK_INIT_FAILED and leaving the film silent. Playback now retries by itself, first without tunnelling and then downmixed to stereo, and later films in the same session start that way.
 
 What changed in every earlier version is in the [changelog](CHANGELOG.md).
 
 ## Verifying a download
 
 ```
-a528b9ea73374e811ef819eb861be5d83f5ad889905ba669a4afda64f0abab7c  bemplayer-0.6.14-universal.apk
+89ecaf1f74d26da7efdd422d7412d6a9e1fbf9f54965fd06c4ec7779d64e8928  bemplayer-0.6.15-universal.apk
 ```
 
-Check one with `sha256sum bemplayer-0.6.14-universal.apk`.
+Check one with `sha256sum bemplayer-0.6.15-universal.apk`.
 
 ## Reporting a problem
 
 Open an issue at https://github.com/liveinaus/bemplayer/issues. The most useful thing you can attach
-is a log export: press the green button on the remote, then Export, and the screen tells
+is a log export: press the green button on the remote (or open Settings › System ›
+Logs), then Export, and the screen tells
 you where the files landed.
 
 Please include your device model, the Android version and the Emby server version.
@@ -126,6 +126,6 @@ For bug reports, suggestions or a chat, there is also the Telegram group
 This repository publishes builds only. It holds the releases, this page and
 `update.json`, which is the file the app polls to discover new versions. The source is
 kept in a separate private repository, and each release records the commit it was built
-from: `525d9ed`.
+from: `9f99809`.
 
-Version 0.6.14 is build 614.
+Version 0.6.15 is build 615.
