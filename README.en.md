@@ -4,7 +4,7 @@
 
 An Emby client for Android TV, built for a remote control rather than a touchscreen.
 
-**Latest version 0.6.15**, released 2026-09-27. Requires Android 7.0 or newer
+**Latest version 0.6.16**, released 2026-09-28. Requires Android 7.0 or newer
 (API 24).
 
 ## Screenshots
@@ -30,7 +30,7 @@ On a television, at 1080p.
 
 | Download | Best for | Size |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.15/bemplayer-0.6.15-universal.apk) | Works on every Android TV device | 19.4 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.16/bemplayer-0.6.16-universal.apk) | Works on every Android TV device | 25.1 MB |
 
 `universal` is the one to take: it works on every device. If Bemplayer opens with a screen
 saying the TV's WebView is too old, that screen says what can be done, and on a TV with
@@ -50,7 +50,7 @@ APK across, open it, and accept the install prompt.
 
 ```bash
 adb connect <tv-ip>:5555
-adb install -r bemplayer-0.6.15-universal.apk
+adb install -r bemplayer-0.6.16-universal.apk
 ```
 
 Then open Bemplayer from the Android TV home screen and enter your Emby server address,
@@ -87,27 +87,26 @@ information for a bug report.
 
 ### 新增 / Added
 
-- 服务器可以有多条线路。手机登录页多了一个"其他线路"框，服务器公布的备用地址每行填一个；设置 › 服务器 › 线路可以用手机增删、调整顺序，也可以在电视上直接选一条。正在用的线路完全没有响应（连不上或超时）时，会按顺序问下一条线路是不是同一台服务器，是就换过去并一直用它，图片和播放也跟着换。服务器返回错误状态不会触发换线；所有线路都没响应后，一分钟内不再重试。 / A server can have several addresses. The phone sign-in page has an "Other addresses" box for the backups a server announces, one per line, and Settings › Servers › Addresses changes them from a phone, reorders them, or picks one on the TV. When the address in use gets no answer at all (refused or timed out), the next is asked whether it is the same server, and if so it takes over and stays in use, images and playback with it. A server answering with an error status never causes a switch, and once no address answers none is tried again for a minute.
-- 切换服务器列表里每个服务器都显示它有多少部电影和剧集。打开列表时向每个服务器问一次，用的是服务器自己记着的总数，不会遍历媒体库；一小时内再打开不会重复问。连不上的服务器不显示数字。 / The server switcher shows how many films and series each server has. Each server is asked once as the list opens, for the totals it already keeps, so no library is read through; opening it again within the hour asks nothing. A server that does not answer shows no figures.
-
-### 变更 / Changed
-
-- 服务器多于六个时，切换服务器列表改为三列的卡片：名称和状态点在上，电影和剧集数量在下，不显示地址，这样十一个服务器在电视上一屏放得下，不用滚动。六个及以下时数量显示在名称右边，地址照旧。 / With more than six servers the switcher is three columns of tiles — the name and its dot, with the film and series counts beneath and no address — so eleven servers fit on a TV screen without scrolling. With six or fewer the counts sit at the right of the name and the address stays.
+- 设置 › 播放 › 音频解码：自动、本机解码（不原码输出）、FFmpeg 软件解码三选一。有的电视原码输出或自带杜比解码时只有静音、也不报错，应用无法察觉，换一种就能出声。 / Settings › Playback › Audio decoding: Automatic, Decode here (no passthrough) or FFmpeg in software. Some sets play passthrough, or their own Dolby decoding, as silence without any error the app can see, and another choice brings the sound back.
+- 文件的声音本机完全无法播放（例如 WMA、RealAudio）时，在允许转码的情况下自动请服务器把声音转成这里能播放的格式；不允许转码时画面上会说明怎么打开。 / When nothing here can play a file's sound at all (WMA or RealAudio, say), the server is asked to convert it, where transcoding is allowed; where it is not, a line over the picture says how to allow it.
 
 ### 修复 / Fixed
 
-- 遥控器绿色按钮其实从来没有接上，按了什么都不会发生。现在在任意界面（包括播放中）按它都会打开运行日志；遥控器没有绿色按钮时，设置 › 系统 › 运行日志 是同一个界面。 / The green remote button was never actually wired up and did nothing. It now opens the logs from any screen, playback included; on a remote without one, Settings › System › Logs is the same screen.
-- 有的电视把 E-AC3（杜比数字+）解成 5.1 声道后拒绝打开音频输出，报 ERROR_CODE_AUDIO_TRACK_INIT_FAILED，画面有、声音没有。现在遇到这种情况会自动重试：先关掉隧道播放，还不行就把声音缩混成立体声；本次运行里之后的影片直接沿用。 / Some televisions decode E-AC3 (Dolby Digital Plus) to 5.1 and then refuse to open an audio output for it, reporting ERROR_CODE_AUDIO_TRACK_INIT_FAILED and leaving the film silent. Playback now retries by itself, first without tunnelling and then downmixed to stereo, and later films in the same session start that way.
+- 很多电视没有杜比或 DTS 的解码授权，播放 AC3、E-AC3（杜比数字+）、DTS 或 TrueHD 音轨时只有画面没有声音，也不报错，例如大多数版本的《老友记》。现在应用自带 FFmpeg 软件解码，电视自己解不了的音轨由它来解。 / Many televisions have no Dolby or DTS decoder licence, so an AC3, E-AC3 (Dolby Digital Plus), DTS or TrueHD track played as picture without sound and no error, as most copies of Friends do. The app now carries FFmpeg and decodes in software whatever the set cannot.
+- 电视自带的音频解码器或原码输出出错时，会自动改用软件解码重试；解出的多声道被拒绝时再缩混成立体声。0.6.15 只处理了多声道输出被拒这一种情况。 / When the set's own audio decoder or its passthrough fails, playback retries decoding in software, and downmixes to stereo if the set then refuses the surround. 0.6.15 only covered the refused surround output.
+- 隧道播放只用在高于 30 帧的视频上。有的电视在隧道模式下播放的声音是静音，也不报错，而 24、25、30 帧的影片和剧集用它没有任何好处。 / Tunnelled playback is only used for video above 30 frames a second. Some sets play tunnelled audio as silence without reporting it, and film and TV at 24, 25 or 30 frames gain nothing from it.
+- 告诉服务器的音频格式名称改成 Emby 自己用的：PCM 按采样格式（pcm_s16le 等）、DTS 也叫 dca，并补上 MP2、AMR 和 G.711。以前名字对不上，服务器会把本来能直接播放的文件拿去转码或拒绝。 / The audio codecs the server is told about now use Emby's own names: PCM by sample format (pcm_s16le and the rest), DTS as dca too, and MP2, AMR and G.711 added. Names that did not match had the server convert, or refuse, files that play here as they are.
+- 如果一条音轨本机确实无法播放，画面上方会写明，播放信息面板的「输出」也会显示；运行日志里记下音轨的格式和用的是哪个解码器。 / If an audio track really cannot be played here, a line over the picture says so and the info panel's Output shows it; the logs name the track's format and which decoder was used.
 
 What changed in every earlier version is in the [changelog](CHANGELOG.md).
 
 ## Verifying a download
 
 ```
-89ecaf1f74d26da7efdd422d7412d6a9e1fbf9f54965fd06c4ec7779d64e8928  bemplayer-0.6.15-universal.apk
+e7bdd648e4eeea6d12bfddbe2a11a4addd9ece6bf6a454523eeb4221048ff8a4  bemplayer-0.6.16-universal.apk
 ```
 
-Check one with `sha256sum bemplayer-0.6.15-universal.apk`.
+Check one with `sha256sum bemplayer-0.6.16-universal.apk`.
 
 ## Reporting a problem
 
@@ -126,6 +125,6 @@ For bug reports, suggestions or a chat, there is also the Telegram group
 This repository publishes builds only. It holds the releases, this page and
 `update.json`, which is the file the app polls to discover new versions. The source is
 kept in a separate private repository, and each release records the commit it was built
-from: `9f99809`.
+from: `b4e4e1d`.
 
-Version 0.6.15 is build 615.
+Version 0.6.16 is build 616.
