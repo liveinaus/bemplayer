@@ -11,6 +11,17 @@ own section.
 
 ## [Unreleased]
 
+## [0.6.17] - 2026-09-28
+
+### 新增 / Added
+
+- 杜比视界 Profile 7（UHD 蓝光原盘转封装常见的格式）兼容播放：电视不能按杜比视界解码 Profile 7 时，改为播放它底下的 HDR10 画面，不再无法播放或让服务器转码。电视能直接解码 Profile 7 的，照常按杜比视界播放。 / Dolby Vision profile 7, the one UHD Blu-ray remuxes carry, now plays on televisions that cannot decode it as Dolby Vision: the HDR10 picture underneath is shown instead of the file failing or the server converting it. A set that does decode profile 7 plays it as Dolby Vision as before.
+- 告诉服务器：没有杜比视界的 HDR10 电视也能直接播放带 HDR10 或 SDR 底层的杜比视界文件（Profile 7、8），不必转码。 / The server is told that an HDR10 television without Dolby Vision can take Dolby Vision files with an HDR10 or SDR base layer (profiles 7 and 8) as they are, rather than converting them.
+
+### 变更 / Changed
+
+- 杜比（AC3、E-AC3、TrueHD）和 DTS 音频默认由 FFmpeg 解码，不再用电视自带的解码器；能原码输出给功放的照常原码输出。有些电视列着杜比解码器，没有授权时却只放出静音，也不报错。 / Dolby (AC3, E-AC3, TrueHD) and DTS audio are decoded by FFmpeg by default rather than by the TV's own decoder; where it can go to an amplifier untouched, it still does. Some sets list a Dolby decoder that, without a licence, plays silence and reports nothing.
+
 ## [0.6.16] - 2026-09-28
 
 ### 新增 / Added
