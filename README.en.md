@@ -4,7 +4,7 @@
 
 An Emby client for Android TV, built for a remote control rather than a touchscreen.
 
-**Latest version 0.6.17**, released 2026-09-28. Requires Android 7.0 or newer
+**Latest version 0.6.18**, released 2026-10-03. Requires Android 7.0 or newer
 (API 24).
 
 ## Screenshots
@@ -30,7 +30,7 @@ On a television, at 1080p.
 
 | Download | Best for | Size |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.17/bemplayer-0.6.17-universal.apk) | Works on every Android TV device | 25.1 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.18/bemplayer-0.6.18-universal.apk) | Works on every Android TV device | 25.1 MB |
 
 `universal` is the one to take: it works on every device. If Bemplayer opens with a screen
 saying the TV's WebView is too old, that screen says what can be done, and on a TV with
@@ -50,7 +50,7 @@ APK across, open it, and accept the install prompt.
 
 ```bash
 adb connect <tv-ip>:5555
-adb install -r bemplayer-0.6.17-universal.apk
+adb install -r bemplayer-0.6.18-universal.apk
 ```
 
 Then open Bemplayer from the Android TV home screen and enter your Emby server address,
@@ -87,22 +87,21 @@ information for a bug report.
 
 ### 新增 / Added
 
-- 杜比视界 Profile 7（UHD 蓝光原盘转封装常见的格式）兼容播放：电视不能按杜比视界解码 Profile 7 时，改为播放它底下的 HDR10 画面，不再无法播放或让服务器转码。电视能直接解码 Profile 7 的，照常按杜比视界播放。 / Dolby Vision profile 7, the one UHD Blu-ray remuxes carry, now plays on televisions that cannot decode it as Dolby Vision: the HDR10 picture underneath is shown instead of the file failing or the server converting it. A set that does decode profile 7 plays it as Dolby Vision as before.
-- 告诉服务器：没有杜比视界的 HDR10 电视也能直接播放带 HDR10 或 SDR 底层的杜比视界文件（Profile 7、8），不必转码。 / The server is told that an HDR10 television without Dolby Vision can take Dolby Vision files with an HDR10 or SDR base layer (profiles 7 and 8) as they are, rather than converting them.
+- 剧集可以倒序排列：剧集一栏旁的「正序／倒序」按钮切换，每部剧单独记住，最新一集不用再一路按到底。 / Episodes can be listed newest first: the Oldest first / Newest first button by the episode row switches it, remembered for each show on its own, so the latest episode is no longer at the far end of the row.
 
-### 变更 / Changed
+### 修复 / Fixed
 
-- 杜比（AC3、E-AC3、TrueHD）和 DTS 音频默认由 FFmpeg 解码，不再用电视自带的解码器；能原码输出给功放的照常原码输出。有些电视列着杜比解码器，没有授权时却只放出静音，也不报错。 / Dolby (AC3, E-AC3, TrueHD) and DTS audio are decoded by FFmpeg by default rather than by the TV's own decoder; where it can go to an amplifier untouched, it still does. Some sets list a Dolby decoder that, without a licence, plays silence and reports nothing.
+- 集数很多的剧（比如一季一百多集），在剧集一栏里连续按右键会越来越慢、焦点跑出屏幕。现在一次只画附近的剧集，按住方向键时也不再等平滑滚动。 / On a show with a great many episodes in a season, pressing right along the episode row grew slower the further it went and the focus ran off the screen. Only the episodes near the focus are drawn now, and a held or repeated direction no longer waits on a smooth scroll.
 
 What changed in every earlier version is in the [changelog](CHANGELOG.md).
 
 ## Verifying a download
 
 ```
-caaa8e99f1068665db9d5e0784ae3f0024bfed3eadd8e0d9bcce0188c2e1457a  bemplayer-0.6.17-universal.apk
+585c0d9829a9dd0c7f0ce5eede65e8ab0f339126a676ed0bc50c9d5bce52f82d  bemplayer-0.6.18-universal.apk
 ```
 
-Check one with `sha256sum bemplayer-0.6.17-universal.apk`.
+Check one with `sha256sum bemplayer-0.6.18-universal.apk`.
 
 ## Reporting a problem
 
@@ -121,6 +120,6 @@ For bug reports, suggestions or a chat, there is also the Telegram group
 This repository publishes builds only. It holds the releases, this page and
 `update.json`, which is the file the app polls to discover new versions. The source is
 kept in a separate private repository, and each release records the commit it was built
-from: `bde5e6e`.
+from: `9d65b2d`.
 
-Version 0.6.17 is build 617.
+Version 0.6.18 is build 618.

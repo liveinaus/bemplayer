@@ -11,6 +11,16 @@ own section.
 
 ## [Unreleased]
 
+## [0.6.18] - 2026-10-03
+
+### 新增 / Added
+
+- 剧集可以倒序排列：剧集一栏旁的「正序／倒序」按钮切换，每部剧单独记住，最新一集不用再一路按到底。 / Episodes can be listed newest first: the Oldest first / Newest first button by the episode row switches it, remembered for each show on its own, so the latest episode is no longer at the far end of the row.
+
+### 修复 / Fixed
+
+- 集数很多的剧（比如一季一百多集），在剧集一栏里连续按右键会越来越慢、焦点跑出屏幕。现在一次只画附近的剧集，按住方向键时也不再等平滑滚动。 / On a show with a great many episodes in a season, pressing right along the episode row grew slower the further it went and the focus ran off the screen. Only the episodes near the focus are drawn now, and a held or repeated direction no longer waits on a smooth scroll.
+
 ## [0.6.17] - 2026-09-28
 
 ### 新增 / Added
