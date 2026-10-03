@@ -4,7 +4,7 @@
 
 An Emby client for Android TV, built for a remote control rather than a touchscreen.
 
-**Latest version 0.6.18**, released 2026-10-03. Requires Android 7.0 or newer
+**Latest version 0.6.19**, released 2026-10-03. Requires Android 7.0 or newer
 (API 24).
 
 ## Screenshots
@@ -30,7 +30,7 @@ On a television, at 1080p.
 
 | Download | Best for | Size |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.18/bemplayer-0.6.18-universal.apk) | Works on every Android TV device | 25.1 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.19/bemplayer-0.6.19-universal.apk) | Works on every Android TV device | 25.1 MB |
 
 `universal` is the one to take: it works on every device. If Bemplayer opens with a screen
 saying the TV's WebView is too old, that screen says what can be done, and on a TV with
@@ -50,7 +50,7 @@ APK across, open it, and accept the install prompt.
 
 ```bash
 adb connect <tv-ip>:5555
-adb install -r bemplayer-0.6.18-universal.apk
+adb install -r bemplayer-0.6.19-universal.apk
 ```
 
 Then open Bemplayer from the Android TV home screen and enter your Emby server address,
@@ -85,23 +85,19 @@ information for a bug report.
 
 ## What is in this release
 
-### 新增 / Added
-
-- 剧集可以倒序排列：剧集一栏旁的「正序／倒序」按钮切换，每部剧单独记住，最新一集不用再一路按到底。 / Episodes can be listed newest first: the Oldest first / Newest first button by the episode row switches it, remembered for each show on its own, so the latest episode is no longer at the far end of the row.
-
 ### 修复 / Fixed
 
-- 集数很多的剧（比如一季一百多集），在剧集一栏里连续按右键会越来越慢、焦点跑出屏幕。现在一次只画附近的剧集，按住方向键时也不再等平滑滚动。 / On a show with a great many episodes in a season, pressing right along the episode row grew slower the further it went and the focus ran off the screen. Only the episodes near the focus are drawn now, and a held or repeated direction no longer waits on a smooth scroll.
+- 全局搜索里，打开另一个服务器上的结果会报「Could not load item … failed with 404」：结果被拿去当前服务器上找了。现在打开时会先切换到它所在的服务器。 / Opening a search result from another server failed with "Could not load item … failed with 404", because it was looked up on the server being watched. It now switches to the server it was found on first.
 
 What changed in every earlier version is in the [changelog](CHANGELOG.md).
 
 ## Verifying a download
 
 ```
-585c0d9829a9dd0c7f0ce5eede65e8ab0f339126a676ed0bc50c9d5bce52f82d  bemplayer-0.6.18-universal.apk
+d3c7df1f51a463bf9fda361f977fe787242ac3664ad211c84d446a4dd8d134d9  bemplayer-0.6.19-universal.apk
 ```
 
-Check one with `sha256sum bemplayer-0.6.18-universal.apk`.
+Check one with `sha256sum bemplayer-0.6.19-universal.apk`.
 
 ## Reporting a problem
 
@@ -120,6 +116,6 @@ For bug reports, suggestions or a chat, there is also the Telegram group
 This repository publishes builds only. It holds the releases, this page and
 `update.json`, which is the file the app polls to discover new versions. The source is
 kept in a separate private repository, and each release records the commit it was built
-from: `9d65b2d`.
+from: `623f161`.
 
-Version 0.6.18 is build 618.
+Version 0.6.19 is build 619.

@@ -1,17 +1,17 @@
 {
-  "versionCode": 618,
-  "versionName": "0.6.18",
+  "versionCode": 619,
+  "versionName": "0.6.19",
   "channel": "stable",
-  "notes": "### \u65b0\u589e / Added\n\n- \u5267\u96c6\u53ef\u4ee5\u5012\u5e8f\u6392\u5217\uff1a\u5267\u96c6\u4e00\u680f\u65c1\u7684\u300c\u6b63\u5e8f\uff0f\u5012\u5e8f\u300d\u6309\u94ae\u5207\u6362\uff0c\u6bcf\u90e8\u5267\u5355\u72ec\u8bb0\u4f4f\uff0c\u6700\u65b0\u4e00\u96c6\u4e0d\u7528\u518d\u4e00\u8def\u6309\u5230\u5e95\u3002 / Episodes can be listed newest first: the Oldest first / Newest first button by the episode row switches it, remembered for each show on its own, so the latest episode is no longer at the far end of the row.\n\n### \u4fee\u590d / Fixed\n\n- \u96c6\u6570\u5f88\u591a\u7684\u5267\uff08\u6bd4\u5982\u4e00\u5b63\u4e00\u767e\u591a\u96c6\uff09\uff0c\u5728\u5267\u96c6\u4e00\u680f\u91cc\u8fde\u7eed\u6309\u53f3\u952e\u4f1a\u8d8a\u6765\u8d8a\u6162\u3001\u7126\u70b9\u8dd1\u51fa\u5c4f\u5e55\u3002\u73b0\u5728\u4e00\u6b21\u53ea\u753b\u9644\u8fd1\u7684\u5267\u96c6\uff0c\u6309\u4f4f\u65b9\u5411\u952e\u65f6\u4e5f\u4e0d\u518d\u7b49\u5e73\u6ed1\u6eda\u52a8\u3002 / On a show with a great many episodes in a season, pressing right along the episode row grew slower the further it went and the focus ran off the screen. Only the episodes near the focus are drawn now, and a held or repeated direction no longer waits on a smooth scroll.",
+  "notes": "### \u4fee\u590d / Fixed\n\n- \u5168\u5c40\u641c\u7d22\u91cc\uff0c\u6253\u5f00\u53e6\u4e00\u4e2a\u670d\u52a1\u5668\u4e0a\u7684\u7ed3\u679c\u4f1a\u62a5\u300cCould not load item \u2026 failed with 404\u300d\uff1a\u7ed3\u679c\u88ab\u62ff\u53bb\u5f53\u524d\u670d\u52a1\u5668\u4e0a\u627e\u4e86\u3002\u73b0\u5728\u6253\u5f00\u65f6\u4f1a\u5148\u5207\u6362\u5230\u5b83\u6240\u5728\u7684\u670d\u52a1\u5668\u3002 / Opening a search result from another server failed with \"Could not load item \u2026 failed with 404\", because it was looked up on the server being watched. It now switches to the server it was found on first.",
   "mandatory": false,
   "minSdk": 24,
   "releasedAt": "2026-10-03",
-  "sourceCommit": "9d65b2d98232d8f2422868388a2188fae24241b9",
+  "sourceCommit": "623f16145cb0a963787c1a2683a5e5ae9546ff62",
   "artifacts": {
     "universal": {
-      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.6.18/bemplayer-0.6.18-universal.apk",
-      "sha256": "585c0d9829a9dd0c7f0ce5eede65e8ab0f339126a676ed0bc50c9d5bce52f82d",
-      "sizeBytes": 26278435
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.6.19/bemplayer-0.6.19-universal.apk",
+      "sha256": "d3c7df1f51a463bf9fda361f977fe787242ac3664ad211c84d446a4dd8d134d9",
+      "sizeBytes": 26278855
     }
   }
 }

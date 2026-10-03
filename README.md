@@ -4,7 +4,7 @@
 
 一款为 Android TV 打造的 Emby 客户端，为遥控器而设计，而不是触摸屏。
 
-**最新版本 0.6.18**，发布于 2026-10-03。需要 Android 7.0
+**最新版本 0.6.19**，发布于 2026-10-03。需要 Android 7.0
 或更高版本（API 24）。
 
 ## 截图
@@ -30,7 +30,7 @@
 
 | 下载 | 适合 | 大小 |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.18/bemplayer-0.6.18-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.19/bemplayer-0.6.19-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
 
 下载 `universal` 即可，所有设备都能用。如果打开 Bemplayer 后显示「此电视的 WebView 太旧」，那个界面会说明
 可以怎么做；使用 Google WebView 的电视可以在界面上直接下载并安装新版。新的 WebView 是电视上所有应用共用的
@@ -47,7 +47,7 @@ Android TV 默认不允许安装来自文件的应用。第一次安装时会弹
 
 ```bash
 adb connect <电视的IP>:5555
-adb install -r bemplayer-0.6.18-universal.apk
+adb install -r bemplayer-0.6.19-universal.apk
 ```
 
 然后在 Android TV 主界面打开 Bemplayer，填入你的 Emby 服务器地址，例如
@@ -78,23 +78,19 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 ## 这个版本有什么
 
-### 新增 / Added
-
-- 剧集可以倒序排列：剧集一栏旁的「正序／倒序」按钮切换，每部剧单独记住，最新一集不用再一路按到底。 / Episodes can be listed newest first: the Oldest first / Newest first button by the episode row switches it, remembered for each show on its own, so the latest episode is no longer at the far end of the row.
-
 ### 修复 / Fixed
 
-- 集数很多的剧（比如一季一百多集），在剧集一栏里连续按右键会越来越慢、焦点跑出屏幕。现在一次只画附近的剧集，按住方向键时也不再等平滑滚动。 / On a show with a great many episodes in a season, pressing right along the episode row grew slower the further it went and the focus ran off the screen. Only the episodes near the focus are drawn now, and a held or repeated direction no longer waits on a smooth scroll.
+- 全局搜索里，打开另一个服务器上的结果会报「Could not load item … failed with 404」：结果被拿去当前服务器上找了。现在打开时会先切换到它所在的服务器。 / Opening a search result from another server failed with "Could not load item … failed with 404", because it was looked up on the server being watched. It now switches to the server it was found on first.
 
 以前每个版本改了什么，见 [更新日志](CHANGELOG.md)。
 
 ## 校验下载的文件
 
 ```
-585c0d9829a9dd0c7f0ce5eede65e8ab0f339126a676ed0bc50c9d5bce52f82d  bemplayer-0.6.18-universal.apk
+d3c7df1f51a463bf9fda361f977fe787242ac3664ad211c84d446a4dd8d134d9  bemplayer-0.6.19-universal.apk
 ```
 
-用 `sha256sum bemplayer-0.6.18-universal.apk` 校验其中一个。
+用 `sha256sum bemplayer-0.6.19-universal.apk` 校验其中一个。
 
 ## 反馈问题
 
@@ -110,6 +106,6 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 这个仓库只发布构建产物。它存放各个发行版、这个页面，以及 `update.json`，也就是应用用来发现新
 版本的那个文件。源代码放在另一个私有仓库里，每次发布都会记录它构建自哪个提交：
-`9d65b2d`。
+`623f161`。
 
-版本 0.6.18 是第 618 号构建。
+版本 0.6.19 是第 619 号构建。

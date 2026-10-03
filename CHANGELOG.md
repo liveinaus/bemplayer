@@ -11,6 +11,12 @@ own section.
 
 ## [Unreleased]
 
+## [0.6.19] - 2026-10-03
+
+### 修复 / Fixed
+
+- 全局搜索里，打开另一个服务器上的结果会报「Could not load item … failed with 404」：结果被拿去当前服务器上找了。现在打开时会先切换到它所在的服务器。 / Opening a search result from another server failed with "Could not load item … failed with 404", because it was looked up on the server being watched. It now switches to the server it was found on first.
+
 ## [0.6.18] - 2026-10-03
 
 ### 新增 / Added
