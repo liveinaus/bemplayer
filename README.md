@@ -4,7 +4,7 @@
 
 一款为 Android TV 打造的 Emby 客户端，为遥控器而设计，而不是触摸屏。
 
-**最新版本 0.6.19**，发布于 2026-10-03。需要 Android 7.0
+**最新版本 0.6.20**，发布于 2026-10-03。需要 Android 7.0
 或更高版本（API 24）。
 
 ## 截图
@@ -30,7 +30,7 @@
 
 | 下载 | 适合 | 大小 |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.19/bemplayer-0.6.19-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.20/bemplayer-0.6.20-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
 
 下载 `universal` 即可，所有设备都能用。如果打开 Bemplayer 后显示「此电视的 WebView 太旧」，那个界面会说明
 可以怎么做；使用 Google WebView 的电视可以在界面上直接下载并安装新版。新的 WebView 是电视上所有应用共用的
@@ -47,7 +47,7 @@ Android TV 默认不允许安装来自文件的应用。第一次安装时会弹
 
 ```bash
 adb connect <电视的IP>:5555
-adb install -r bemplayer-0.6.19-universal.apk
+adb install -r bemplayer-0.6.20-universal.apk
 ```
 
 然后在 Android TV 主界面打开 Bemplayer，填入你的 Emby 服务器地址，例如
@@ -80,17 +80,17 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 ### 修复 / Fixed
 
-- 全局搜索里，打开另一个服务器上的结果会报「Could not load item … failed with 404」：结果被拿去当前服务器上找了。现在打开时会先切换到它所在的服务器。 / Opening a search result from another server failed with "Could not load item … failed with 404", because it was looked up on the server being watched. It now switches to the server it was found on first.
+- 搜索结果不再列出单集：搜「兰香如故」只出这部剧，不再跟着一屏它的剧集。 / Search no longer lists single episodes: searching 兰香如故 finds the show, not the show followed by a screen of its episodes.
 
 以前每个版本改了什么，见 [更新日志](CHANGELOG.md)。
 
 ## 校验下载的文件
 
 ```
-d3c7df1f51a463bf9fda361f977fe787242ac3664ad211c84d446a4dd8d134d9  bemplayer-0.6.19-universal.apk
+8874d6856b880115cd506544ab41f64304b04a3f10605df3bbd2e55af287fe6c  bemplayer-0.6.20-universal.apk
 ```
 
-用 `sha256sum bemplayer-0.6.19-universal.apk` 校验其中一个。
+用 `sha256sum bemplayer-0.6.20-universal.apk` 校验其中一个。
 
 ## 反馈问题
 
@@ -106,6 +106,6 @@ d3c7df1f51a463bf9fda361f977fe787242ac3664ad211c84d446a4dd8d134d9  bemplayer-0.6.
 
 这个仓库只发布构建产物。它存放各个发行版、这个页面，以及 `update.json`，也就是应用用来发现新
 版本的那个文件。源代码放在另一个私有仓库里，每次发布都会记录它构建自哪个提交：
-`623f161`。
+`26af068`。
 
-版本 0.6.19 是第 619 号构建。
+版本 0.6.20 是第 620 号构建。

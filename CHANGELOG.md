@@ -11,6 +11,12 @@ own section.
 
 ## [Unreleased]
 
+## [0.6.20] - 2026-10-04
+
+### 修复 / Fixed
+
+- 搜索结果不再列出单集：搜「兰香如故」只出这部剧，不再跟着一屏它的剧集。 / Search no longer lists single episodes: searching 兰香如故 finds the show, not the show followed by a screen of its episodes.
+
 ## [0.6.19] - 2026-10-03
 
 ### 修复 / Fixed

@@ -1,17 +1,17 @@
 {
-  "versionCode": 619,
-  "versionName": "0.6.19",
+  "versionCode": 620,
+  "versionName": "0.6.20",
   "channel": "stable",
-  "notes": "### \u4fee\u590d / Fixed\n\n- \u5168\u5c40\u641c\u7d22\u91cc\uff0c\u6253\u5f00\u53e6\u4e00\u4e2a\u670d\u52a1\u5668\u4e0a\u7684\u7ed3\u679c\u4f1a\u62a5\u300cCould not load item \u2026 failed with 404\u300d\uff1a\u7ed3\u679c\u88ab\u62ff\u53bb\u5f53\u524d\u670d\u52a1\u5668\u4e0a\u627e\u4e86\u3002\u73b0\u5728\u6253\u5f00\u65f6\u4f1a\u5148\u5207\u6362\u5230\u5b83\u6240\u5728\u7684\u670d\u52a1\u5668\u3002 / Opening a search result from another server failed with \"Could not load item \u2026 failed with 404\", because it was looked up on the server being watched. It now switches to the server it was found on first.",
+  "notes": "### \u4fee\u590d / Fixed\n\n- \u641c\u7d22\u7ed3\u679c\u4e0d\u518d\u5217\u51fa\u5355\u96c6\uff1a\u641c\u300c\u5170\u9999\u5982\u6545\u300d\u53ea\u51fa\u8fd9\u90e8\u5267\uff0c\u4e0d\u518d\u8ddf\u7740\u4e00\u5c4f\u5b83\u7684\u5267\u96c6\u3002 / Search no longer lists single episodes: searching \u5170\u9999\u5982\u6545 finds the show, not the show followed by a screen of its episodes.",
   "mandatory": false,
   "minSdk": 24,
   "releasedAt": "2026-10-03",
-  "sourceCommit": "623f16145cb0a963787c1a2683a5e5ae9546ff62",
+  "sourceCommit": "26af068e94640d0425eaa3518b844dce4e2b08f8",
   "artifacts": {
     "universal": {
-      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.6.19/bemplayer-0.6.19-universal.apk",
-      "sha256": "d3c7df1f51a463bf9fda361f977fe787242ac3664ad211c84d446a4dd8d134d9",
-      "sizeBytes": 26278855
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.6.20/bemplayer-0.6.20-universal.apk",
+      "sha256": "8874d6856b880115cd506544ab41f64304b04a3f10605df3bbd2e55af287fe6c",
+      "sizeBytes": 26278667
     }
   }
 }
