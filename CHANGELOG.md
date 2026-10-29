@@ -89,7 +89,7 @@ own section.
 ### 修复 / Fixed
 
 - 在电视上用遥控器「下」键移到输入框、弹出系统键盘后，应用会一直当作「下」键还按着，焦点不停往下跑，什么都输入不了，离开这一页也停不下来。原因是键盘把按键抬起的信号收走了。现在输入框一获得焦点，应用就不再替遥控器补发按住的按键。 / On a TV, moving onto a text field with Down and having the system keyboard open left the app treating Down as held: focus kept running down, nothing could be typed, and it went on after leaving the screen. The keyboard had taken the key's release. The app now stops repeating a held button for a remote as soon as a text field has focus.
-- 启动时显示大小总是默认值，要打开一次设置才变成自己选的，字体会突然变大或变小。语言、客户端标识和详细日志也一样，在此之前首页发给服务器的是默认标识。现在应用一启动就读取全部设置。 / The display size always opened at the default and only became the chosen one once Settings was opened, so the text jumped in size. The language, the client identity and verbose logging were the same, so until then home spoke to the server under the default identity. Every setting is now read as the app starts.
+- 启动时显示大小总是默认值，要打开一次设置才变成自己选的，字体会突然变大或变小。语言和详细日志也一样。现在应用一启动就读取全部设置。 / The display size always opened at the default and only became the chosen one once Settings was opened, so the text jumped in size. The language and verbose logging were the same. Every setting is now read as the app starts.
 - 显示大小不是「大」时，边栏的图标没有对齐：图标用的是固定像素，边栏和间距却随显示大小缩放。现在所有图标都随显示大小缩放，每一种大小下边栏图标都在同一条线上，其他页面的图标也和旁边的文字保持比例。 / At any display size other than Large the sidebar's icons were out of line: the icons were fixed pixels while the sidebar and its spacing scaled with the setting. Every icon scales with the display size now, so the sidebar's icons share one line at every size, and icons everywhere else keep in proportion with the text beside them.
 - 切换服务器列表是两列时，在右列按「下」会跳到左列。现在上下只在同一列里移动，右列最后一个再往下是「添加另一个服务器」。 / In the server switcher's two columns, Down from the right column could jump across to the left one. Up and down keep to the column now, and Down past the last server on the right goes to "Add another server".
 
@@ -107,7 +107,6 @@ own section.
 - 播放器加载时（「正在加载…」）显示当前下载速度，和播放中右上角的是同一个数字。等待的时候最想知道的就是「到底有没有在下」：慢的线路会慢慢往上走，服务器卡住了就一直是 0 kbps。换下一集时会先清空，不会显示上一部的速度。 / Player: the loading screen shows the current download speed under "Loading…", the same figure the corner shows once the picture is up. During that wait the only question is whether anything is arriving at all: a slow line counts up, a server that has stalled sits at 0 kbps. It is cleared between items, so the speed of the film that just finished is never shown as this one's.
 - 媒体库列表滚到底部时自动加载下一页，不用再按「加载更多」；按钮仍在（遥控器要有地方可落），加载时变成「加载中…」。 / A library loads its next page when you reach the end of what is there, instead of waiting for Load more to be pressed. The button stays — a remote has to be able to land on something — and says "Loading more…" while the page is on its way.
 - 跳过片头片尾多了「数据源」设置：服务器自己没有标记时，向公共数据库（TheIntroDB 或 IntroDB）查询正在播放的这一集。开始播放时查一次，只发送该剧的 TMDb/TVDB/IMDb 编号和集数，不发送账号、服务器地址或任何身份信息；设为「关闭」则除你自己的服务器外不联系任何第三方。服务器的标记和你手动标的都优先于它。TheIntroDB 按 TMDb 编号查，IntroDB 按 IMDb 编号查，媒体库得刮削到相应编号才查得到。两家对中文内容的收录目前都不多，抽查了十几部，IntroDB 命中 3 部、TheIntroDB 命中 1 部，可以两个都试试。 / Skipping intros and credits gains a "Marks from" setting: where your server has none of its own, a public database — TheIntroDB or IntroDB — is asked about the episode playing. Once as it starts, sending the series' TMDb/TVDB/IMDb id and the episode number — no account, no server address, nothing identifying. Off means nothing outside your own server is contacted. Your server's marks and any you set by hand both win over it. TheIntroDB is asked by TMDb id and IntroDB by IMDb id, so a library needs the one its source wants. Coverage of Chinese-language titles is thin in both: of fourteen series sampled from real libraries, IntroDB had three and TheIntroDB one, so both are worth trying.
-- 高级设置里的客户端标识不只可以改 User-Agent，还可以分别设置客户端名称、版本号和设备名称；可以直接点选常见播放器的预设，也可以扫码在手机上填写，保存后电视立即生效。留空的项会自动推算。这一项移到了「系统」页。 / The client identity in the advanced settings covers more than the User-Agent now: the client name, version and device name can each be set, a known player can be picked from presets, and the whole thing can be typed on a phone through a QR code, taking effect on the TV as it is saved. Anything left empty is worked out from the rest. It has moved to the System tab.
 - 设置 → 关于 加了 Telegram 群组 @bemplayer 的二维码，问题反馈、功能建议或随便聊聊都可以；版本发布页的二维码仍在旁边。 / Settings → About has a QR code for the Telegram group @bemplayer, for bug reports, suggestions or a chat, beside the one for the releases page.
 
 ### 变更 / Changed
@@ -284,7 +283,7 @@ own section.
 
 ## [0.3.0] - 2026-09-19
 
-- 浏览器版本支持所有服务器；开发用代理可模拟电视的 User-Agent。 / The browser build works with every server; a dev proxy can present a TV's user agent.
+- 浏览器版本支持所有服务器。 / The browser build works with every server.
 - 修复电视端字幕问题。 / A TV subtitle fix.
 
 ## [0.2.9] - 2026-09-19
