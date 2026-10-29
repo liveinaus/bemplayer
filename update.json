@@ -1,17 +1,17 @@
 {
-  "versionCode": 620,
-  "versionName": "0.6.20",
+  "versionCode": 622,
+  "versionName": "0.6.22",
   "channel": "stable",
-  "notes": "### \u4fee\u590d / Fixed\n\n- \u641c\u7d22\u7ed3\u679c\u4e0d\u518d\u5217\u51fa\u5355\u96c6\uff1a\u641c\u300c\u5170\u9999\u5982\u6545\u300d\u53ea\u51fa\u8fd9\u90e8\u5267\uff0c\u4e0d\u518d\u8ddf\u7740\u4e00\u5c4f\u5b83\u7684\u5267\u96c6\u3002 / Search no longer lists single episodes: searching \u5170\u9999\u5982\u6545 finds the show, not the show followed by a screen of its episodes.",
+  "notes": "### \u65b0\u589e / Added\n\n- \u9690\u79c1\u6a21\u5f0f\uff08\u5bb6\u957f\u63a7\u5236\uff09\uff1a\u5728\u300c\u8bbe\u7f6e \u203a \u7cfb\u7edf \u203a \u5bc6\u7801\u9501\u300d\u91cc\u9009\u62e9\u8981\u9690\u85cf\u7684\u670d\u52a1\u5668\u548c\u5a92\u4f53\u5e93\u3002\u9690\u79c1\u6a21\u5f0f\u5f00\u542f\u65f6\uff0c\u9690\u85cf\u7684\u670d\u52a1\u5668\u5c31\u50cf\u4ece\u6ca1\u767b\u5f55\u8fc7\uff1a\u4e0d\u4f1a\u5217\u51fa\u3001\u4e0d\u4f1a\u88ab\u641c\u7d22\uff0c\u4e5f\u770b\u4e0d\u5230\u5b83\u7684\u89c2\u770b\u8bb0\u5f55\u3002\u7528\u9065\u63a7\u5668\u65b9\u5411\u952e\u8f93\u5165\u5bc6\u7801\u5173\u95ed\u9690\u79c1\u6a21\u5f0f\uff0c\u4e00\u952e\u5373\u53ef\u91cd\u65b0\u5f00\u542f\uff1b\u542f\u52a8\u65f6\u548c\u79bb\u5f00\u51e0\u5206\u949f\u540e\u4f1a\u81ea\u52a8\u5f00\u542f\u3002\u5c4f\u5e55\u9501\u548c\u9690\u79c1\u6a21\u5f0f\u4e92\u76f8\u72ec\u7acb\uff1a\u5c4f\u5e55\u9501\u53ef\u4ee5\u5173\u95ed\uff0c\u53ea\u7528\u9690\u79c1\u6a21\u5f0f\uff1b\u89e3\u9501\u5c4f\u5e55\u9501\u4e0d\u4f1a\u5173\u95ed\u9690\u79c1\u6a21\u5f0f\uff0c\u6240\u4ee5\u53ef\u4ee5\u66ff\u5b69\u5b50\u89e3\u9501\u800c\u9690\u85cf\u7684\u5185\u5bb9\u4ecd\u7136\u9690\u85cf\u3002 / Privacy mode (parental control): choose servers and libraries to hide under Settings \u203a System \u203a Passcode. While privacy is on, a hidden server is as if never signed in to: not listed, not searched, and none of what was watched on it shows. The passcode, entered with the remote's arrows, turns privacy off, one press turns it back on, and it comes back on at launch and after a few minutes away. The screen lock and privacy are separate: the lock can be turned off to use privacy alone, and unlocking the screen never turns privacy off, so a child can be let in with what is hidden still hidden.\n\n### \u4fee\u590d / Fixed\n\n- \u7b2c\u4e8c\u5b57\u5e55\u4e0d\u663e\u793a\uff1a\u7b2c\u4e00\u5b57\u5e55\u5173\u95ed\u65f6\u7b2c\u4e8c\u5b57\u5e55\u4e0d\u51fa\u73b0\uff0cASS \u683c\u5f0f\u7684\u7b2c\u4e8c\u5b57\u5e55\u4e5f\u8bfb\u4e0d\u51fa\u5185\u5bb9\uff0c\u5feb\u8fdb\u540e\u7b2c\u4e8c\u5b57\u5e55\u8fd8\u4f1a\u88ab\u5173\u6389\u3002\u73b0\u5728\u5355\u72ec\u9009\u7b2c\u4e8c\u5b57\u5e55\u4e5f\u80fd\u663e\u793a\uff0cASS \u5b57\u5e55\u4e5f\u80fd\u8bfb\uff0c\u5feb\u8fdb\u540e\u4ecd\u7136\u4fdd\u7559\u3002 / The second subtitle never showed: it did not appear with the first subtitle off, an ASS second subtitle read as empty, and a jump forward switched it off. It now shows on its own, reads ASS, and stays on through a jump.\n- \u770b\u7247\u9014\u4e2d\u4e0e\u670d\u52a1\u5668\u7684\u8fde\u63a5\u65ad\u4e86\uff08\u6bd4\u5982\u7ecf Cloudflare \u96a7\u9053\u7684\u7ebf\u8def\uff09\uff0c\u64ad\u653e\u4f1a\u76f4\u63a5\u505c\u4e0b\u62a5\u9519\uff0c\u8981\u624b\u52a8\u91cd\u65b0\u64ad\u653e\u3002\u73b0\u5728\u4f1a\u663e\u793a\u300c\u6b63\u5728\u91cd\u65b0\u8fde\u63a5\u2026\u300d\u5e76\u81ea\u52a8\u91cd\u8fde\uff0c\u4ece\u65ad\u5f00\u7684\u5730\u65b9\u63a5\u7740\u64ad\uff1b\u6ca1\u6709\u62a5\u9519\u53ea\u662f\u5361\u4f4f\u4e0d\u52a8\u65f6\u4e5f\u4f1a\u91cd\u8fde\u3002\u670d\u52a1\u5668\u4e94\u5206\u949f\u90fd\u8fde\u4e0d\u4e0a\u624d\u663e\u793a\u9519\u8bef\u3002 / When the connection to the server dropped mid-film (a route through a Cloudflare tunnel, say), playback stopped with an error until it was played again by hand. It now says it is reconnecting and picks up where it stopped, including when the stream froze without an error; only a server away for five minutes ends in an error.",
   "mandatory": false,
   "minSdk": 24,
-  "releasedAt": "2026-10-03",
-  "sourceCommit": "26af068e94640d0425eaa3518b844dce4e2b08f8",
+  "releasedAt": "2026-10-29",
+  "sourceCommit": "bb3a0a5e9cfa3148e8d656a58c1b66da4a6d94e8",
   "artifacts": {
     "universal": {
-      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.6.20/bemplayer-0.6.20-universal.apk",
-      "sha256": "8874d6856b880115cd506544ab41f64304b04a3f10605df3bbd2e55af287fe6c",
-      "sizeBytes": 26278667
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.6.22/bemplayer-0.6.22-universal.apk",
+      "sha256": "27735cbf1e24a96fda51390af09821f6b87a79139d3cfa66ec297cb01e701c0c",
+      "sizeBytes": 26311653
     }
   }
 }

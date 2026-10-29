@@ -4,7 +4,7 @@
 
 一款为 Android TV 打造的 Emby 客户端，为遥控器而设计，而不是触摸屏。
 
-**最新版本 0.6.20**，发布于 2026-10-03。需要 Android 7.0
+**最新版本 0.6.22**，发布于 2026-10-29。需要 Android 7.0
 或更高版本（API 24）。
 
 ## 截图
@@ -30,7 +30,7 @@
 
 | 下载 | 适合 | 大小 |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.20/bemplayer-0.6.20-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.22/bemplayer-0.6.22-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
 
 下载 `universal` 即可，所有设备都能用。如果打开 Bemplayer 后显示「此电视的 WebView 太旧」，那个界面会说明
 可以怎么做；使用 Google WebView 的电视可以在界面上直接下载并安装新版。新的 WebView 是电视上所有应用共用的
@@ -47,7 +47,7 @@ Android TV 默认不允许安装来自文件的应用。第一次安装时会弹
 
 ```bash
 adb connect <电视的IP>:5555
-adb install -r bemplayer-0.6.20-universal.apk
+adb install -r bemplayer-0.6.22-universal.apk
 ```
 
 然后在 Android TV 主界面打开 Bemplayer，填入你的 Emby 服务器地址，例如
@@ -78,19 +78,24 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 ## 这个版本有什么
 
+### 新增 / Added
+
+- 隐私模式（家长控制）：在「设置 › 系统 › 密码锁」里选择要隐藏的服务器和媒体库。隐私模式开启时，隐藏的服务器就像从没登录过：不会列出、不会被搜索，也看不到它的观看记录。用遥控器方向键输入密码关闭隐私模式，一键即可重新开启；启动时和离开几分钟后会自动开启。屏幕锁和隐私模式互相独立：屏幕锁可以关闭，只用隐私模式；解锁屏幕锁不会关闭隐私模式，所以可以替孩子解锁而隐藏的内容仍然隐藏。 / Privacy mode (parental control): choose servers and libraries to hide under Settings › System › Passcode. While privacy is on, a hidden server is as if never signed in to: not listed, not searched, and none of what was watched on it shows. The passcode, entered with the remote's arrows, turns privacy off, one press turns it back on, and it comes back on at launch and after a few minutes away. The screen lock and privacy are separate: the lock can be turned off to use privacy alone, and unlocking the screen never turns privacy off, so a child can be let in with what is hidden still hidden.
+
 ### 修复 / Fixed
 
-- 搜索结果不再列出单集：搜「兰香如故」只出这部剧，不再跟着一屏它的剧集。 / Search no longer lists single episodes: searching 兰香如故 finds the show, not the show followed by a screen of its episodes.
+- 第二字幕不显示：第一字幕关闭时第二字幕不出现，ASS 格式的第二字幕也读不出内容，快进后第二字幕还会被关掉。现在单独选第二字幕也能显示，ASS 字幕也能读，快进后仍然保留。 / The second subtitle never showed: it did not appear with the first subtitle off, an ASS second subtitle read as empty, and a jump forward switched it off. It now shows on its own, reads ASS, and stays on through a jump.
+- 看片途中与服务器的连接断了（比如经 Cloudflare 隧道的线路），播放会直接停下报错，要手动重新播放。现在会显示「正在重新连接…」并自动重连，从断开的地方接着播；没有报错只是卡住不动时也会重连。服务器五分钟都连不上才显示错误。 / When the connection to the server dropped mid-film (a route through a Cloudflare tunnel, say), playback stopped with an error until it was played again by hand. It now says it is reconnecting and picks up where it stopped, including when the stream froze without an error; only a server away for five minutes ends in an error.
 
 以前每个版本改了什么，见 [更新日志](CHANGELOG.md)。
 
 ## 校验下载的文件
 
 ```
-8874d6856b880115cd506544ab41f64304b04a3f10605df3bbd2e55af287fe6c  bemplayer-0.6.20-universal.apk
+27735cbf1e24a96fda51390af09821f6b87a79139d3cfa66ec297cb01e701c0c  bemplayer-0.6.22-universal.apk
 ```
 
-用 `sha256sum bemplayer-0.6.20-universal.apk` 校验其中一个。
+用 `sha256sum bemplayer-0.6.22-universal.apk` 校验其中一个。
 
 ## 反馈问题
 
@@ -106,6 +111,6 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 这个仓库只发布构建产物。它存放各个发行版、这个页面，以及 `update.json`，也就是应用用来发现新
 版本的那个文件。源代码放在另一个私有仓库里，每次发布都会记录它构建自哪个提交：
-`26af068`。
+`bb3a0a5`。
 
-版本 0.6.20 是第 620 号构建。
+版本 0.6.22 是第 622 号构建。
