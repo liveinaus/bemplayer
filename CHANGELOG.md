@@ -11,6 +11,17 @@ own section.
 
 ## [Unreleased]
 
+## [0.6.23] - 2026-11-04
+
+### 新增 / Added
+
+- 服务器同步：在「设置 › 同步」里填入第三方面板的同步地址和同步密钥（可用手机扫码粘贴），面板上共享的 Emby 服务器会自动添加，包括备用线路和登录信息；面板上修改密码或线路、取消共享，这里都会跟着更新。启动和回到应用时自动同步（最多每 10 分钟一次），也可以立即同步。同步只会移除它自己添加的服务器，手动添加的服务器不受影响。 / Server sync: enter a third-party panel's sync address and sync key under Settings › Sync (or paste them on a phone from the QR code), and the Emby servers the panel shares are added for you, backup lines and sign-in included. A password or line changed on the panel, or a server no longer shared, is followed here. Sync runs on launch and on coming back to the app (at most every 10 minutes) and on demand. It only ever removes servers it added itself; ones added by hand are left alone.
+- 字幕按剧记住：看一部剧时打开或关闭字幕，同一部剧的其他集会自动用同样的选择（按名称、语言和格式匹配）。 / Subtitles are remembered per show: turn them on or off in one episode and the show's other episodes follow, matched by name, language and format.
+
+### 修复 / Fixed
+
+- 在电视上编辑已添加服务器的线路：按「线路」后面板会滚动到屏幕内并获得焦点，按返回回到原来的按钮；之前面板出现在屏幕下方，看起来按了没反应。 / Editing an existing server's addresses on a television: pressing Addresses now scrolls the panel onto the screen and moves focus into it, and Back returns to the button. Before, the panel opened below the screen, so the press looked like it did nothing.
+
 ## [0.6.22] - 2026-10-29
 
 ### 新增 / Added
