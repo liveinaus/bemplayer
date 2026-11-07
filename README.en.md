@@ -4,7 +4,7 @@
 
 An Emby client for Android TV, built for a remote control rather than a touchscreen.
 
-**Latest version 0.6.24**, released 2026-11-07. Requires Android 7.0 or newer
+**Latest version 0.6.25**, released 2026-11-07. Requires Android 7.0 or newer
 (API 24).
 
 ## Screenshots
@@ -30,7 +30,7 @@ On a television, at 1080p.
 
 | Download | Best for | Size |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.24/bemplayer-0.6.24-universal.apk) | Works on every Android TV device | 25.1 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.25/bemplayer-0.6.25-universal.apk) | Works on every Android TV device | 25.1 MB |
 
 `universal` is the one to take: it works on every device. If Bemplayer opens with a screen
 saying the TV's WebView is too old, that screen says what can be done, and on a TV with
@@ -50,7 +50,7 @@ APK across, open it, and accept the install prompt.
 
 ```bash
 adb connect <tv-ip>:5555
-adb install -r bemplayer-0.6.24-universal.apk
+adb install -r bemplayer-0.6.25-universal.apk
 ```
 
 Then open Bemplayer from the Android TV home screen and enter your Emby server address,
@@ -87,17 +87,17 @@ information for a bug report.
 
 ### 修复 / Fixed
 
-- 首页和剧集媒体库在部分服务器上显示为空：有的服务器拒绝提供「接下来」一行，之前这会让整个页面只显示错误。现在被拒绝的那一行会被跳过，其余各行照常显示。 / Home and series libraries showing empty on some servers: a server that refuses the Next up row used to leave the whole screen with only an error. A refused row is now left out and the other rows still show.
+- 同步的服务器在登录失效后会自动重新登录：有的服务器在别处登录同一账号时会让这里的登录失效，之前首页只会显示 401 错误，需要手动重新登录。现在会用面板上的登录信息自动重新登录并继续加载（同一服务器每分钟最多一次）。手动添加的服务器不受影响。 / A synced server signs in again by itself when its sign in stops working: some servers end this app's session when the same account signs in elsewhere, which left home showing a 401 error until signed in again by hand. The app now signs in again with what the panel shares and carries on (at most once a minute per server). Servers added by hand are unchanged.
 
 What changed in every earlier version is in the [changelog](CHANGELOG.md).
 
 ## Verifying a download
 
 ```
-205abff358f5d6a8b6c0cf9171334fcb791fd2b117b8134e074725f9297ac49d  bemplayer-0.6.24-universal.apk
+b088258d10f89859a469bdddaf1facd0cf1926be7c32575dbe837bc42b40e5cc  bemplayer-0.6.25-universal.apk
 ```
 
-Check one with `sha256sum bemplayer-0.6.24-universal.apk`.
+Check one with `sha256sum bemplayer-0.6.25-universal.apk`.
 
 ## Reporting a problem
 
@@ -116,6 +116,6 @@ For bug reports, suggestions or a chat, there is also the Telegram group
 This repository publishes builds only. It holds the releases, this page and
 `update.json`, which is the file the app polls to discover new versions. The source is
 kept in a separate private repository, and each release records the commit it was built
-from: `e92524d`.
+from: `cbcdc18`.
 
-Version 0.6.24 is build 624.
+Version 0.6.25 is build 625.

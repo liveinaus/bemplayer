@@ -1,17 +1,17 @@
 {
-  "versionCode": 624,
-  "versionName": "0.6.24",
+  "versionCode": 625,
+  "versionName": "0.6.25",
   "channel": "stable",
-  "notes": "### \u4fee\u590d / Fixed\n\n- \u9996\u9875\u548c\u5267\u96c6\u5a92\u4f53\u5e93\u5728\u90e8\u5206\u670d\u52a1\u5668\u4e0a\u663e\u793a\u4e3a\u7a7a\uff1a\u6709\u7684\u670d\u52a1\u5668\u62d2\u7edd\u63d0\u4f9b\u300c\u63a5\u4e0b\u6765\u300d\u4e00\u884c\uff0c\u4e4b\u524d\u8fd9\u4f1a\u8ba9\u6574\u4e2a\u9875\u9762\u53ea\u663e\u793a\u9519\u8bef\u3002\u73b0\u5728\u88ab\u62d2\u7edd\u7684\u90a3\u4e00\u884c\u4f1a\u88ab\u8df3\u8fc7\uff0c\u5176\u4f59\u5404\u884c\u7167\u5e38\u663e\u793a\u3002 / Home and series libraries showing empty on some servers: a server that refuses the Next up row used to leave the whole screen with only an error. A refused row is now left out and the other rows still show.",
+  "notes": "### \u4fee\u590d / Fixed\n\n- \u540c\u6b65\u7684\u670d\u52a1\u5668\u5728\u767b\u5f55\u5931\u6548\u540e\u4f1a\u81ea\u52a8\u91cd\u65b0\u767b\u5f55\uff1a\u6709\u7684\u670d\u52a1\u5668\u5728\u522b\u5904\u767b\u5f55\u540c\u4e00\u8d26\u53f7\u65f6\u4f1a\u8ba9\u8fd9\u91cc\u7684\u767b\u5f55\u5931\u6548\uff0c\u4e4b\u524d\u9996\u9875\u53ea\u4f1a\u663e\u793a 401 \u9519\u8bef\uff0c\u9700\u8981\u624b\u52a8\u91cd\u65b0\u767b\u5f55\u3002\u73b0\u5728\u4f1a\u7528\u9762\u677f\u4e0a\u7684\u767b\u5f55\u4fe1\u606f\u81ea\u52a8\u91cd\u65b0\u767b\u5f55\u5e76\u7ee7\u7eed\u52a0\u8f7d\uff08\u540c\u4e00\u670d\u52a1\u5668\u6bcf\u5206\u949f\u6700\u591a\u4e00\u6b21\uff09\u3002\u624b\u52a8\u6dfb\u52a0\u7684\u670d\u52a1\u5668\u4e0d\u53d7\u5f71\u54cd\u3002 / A synced server signs in again by itself when its sign in stops working: some servers end this app's session when the same account signs in elsewhere, which left home showing a 401 error until signed in again by hand. The app now signs in again with what the panel shares and carries on (at most once a minute per server). Servers added by hand are unchanged.",
   "mandatory": false,
   "minSdk": 24,
   "releasedAt": "2026-11-07",
-  "sourceCommit": "e92524d6cfd006496e22db919c03012588cccab2",
+  "sourceCommit": "cbcdc180a74a83764ece82c5d36418db298e4e20",
   "artifacts": {
     "universal": {
-      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.6.24/bemplayer-0.6.24-universal.apk",
-      "sha256": "205abff358f5d6a8b6c0cf9171334fcb791fd2b117b8134e074725f9297ac49d",
-      "sizeBytes": 26332345
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.6.25/bemplayer-0.6.25-universal.apk",
+      "sha256": "b088258d10f89859a469bdddaf1facd0cf1926be7c32575dbe837bc42b40e5cc",
+      "sizeBytes": 26334181
     }
   }
 }

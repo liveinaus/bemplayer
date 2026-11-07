@@ -4,7 +4,7 @@
 
 一款为 Android TV 打造的 Emby 客户端，为遥控器而设计，而不是触摸屏。
 
-**最新版本 0.6.24**，发布于 2026-11-07。需要 Android 7.0
+**最新版本 0.6.25**，发布于 2026-11-07。需要 Android 7.0
 或更高版本（API 24）。
 
 ## 截图
@@ -30,7 +30,7 @@
 
 | 下载 | 适合 | 大小 |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.24/bemplayer-0.6.24-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.25/bemplayer-0.6.25-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
 
 下载 `universal` 即可，所有设备都能用。如果打开 Bemplayer 后显示「此电视的 WebView 太旧」，那个界面会说明
 可以怎么做；使用 Google WebView 的电视可以在界面上直接下载并安装新版。新的 WebView 是电视上所有应用共用的
@@ -47,7 +47,7 @@ Android TV 默认不允许安装来自文件的应用。第一次安装时会弹
 
 ```bash
 adb connect <电视的IP>:5555
-adb install -r bemplayer-0.6.24-universal.apk
+adb install -r bemplayer-0.6.25-universal.apk
 ```
 
 然后在 Android TV 主界面打开 Bemplayer，填入你的 Emby 服务器地址，例如
@@ -80,17 +80,17 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 ### 修复 / Fixed
 
-- 首页和剧集媒体库在部分服务器上显示为空：有的服务器拒绝提供「接下来」一行，之前这会让整个页面只显示错误。现在被拒绝的那一行会被跳过，其余各行照常显示。 / Home and series libraries showing empty on some servers: a server that refuses the Next up row used to leave the whole screen with only an error. A refused row is now left out and the other rows still show.
+- 同步的服务器在登录失效后会自动重新登录：有的服务器在别处登录同一账号时会让这里的登录失效，之前首页只会显示 401 错误，需要手动重新登录。现在会用面板上的登录信息自动重新登录并继续加载（同一服务器每分钟最多一次）。手动添加的服务器不受影响。 / A synced server signs in again by itself when its sign in stops working: some servers end this app's session when the same account signs in elsewhere, which left home showing a 401 error until signed in again by hand. The app now signs in again with what the panel shares and carries on (at most once a minute per server). Servers added by hand are unchanged.
 
 以前每个版本改了什么，见 [更新日志](CHANGELOG.md)。
 
 ## 校验下载的文件
 
 ```
-205abff358f5d6a8b6c0cf9171334fcb791fd2b117b8134e074725f9297ac49d  bemplayer-0.6.24-universal.apk
+b088258d10f89859a469bdddaf1facd0cf1926be7c32575dbe837bc42b40e5cc  bemplayer-0.6.25-universal.apk
 ```
 
-用 `sha256sum bemplayer-0.6.24-universal.apk` 校验其中一个。
+用 `sha256sum bemplayer-0.6.25-universal.apk` 校验其中一个。
 
 ## 反馈问题
 
@@ -106,6 +106,6 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 这个仓库只发布构建产物。它存放各个发行版、这个页面，以及 `update.json`，也就是应用用来发现新
 版本的那个文件。源代码放在另一个私有仓库里，每次发布都会记录它构建自哪个提交：
-`e92524d`。
+`cbcdc18`。
 
-版本 0.6.24 是第 624 号构建。
+版本 0.6.25 是第 625 号构建。

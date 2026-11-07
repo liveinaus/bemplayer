@@ -11,6 +11,12 @@ own section.
 
 ## [Unreleased]
 
+## [0.6.25] - 2026-11-07
+
+### 修复 / Fixed
+
+- 同步的服务器在登录失效后会自动重新登录：有的服务器在别处登录同一账号时会让这里的登录失效，之前首页只会显示 401 错误，需要手动重新登录。现在会用面板上的登录信息自动重新登录并继续加载（同一服务器每分钟最多一次）。手动添加的服务器不受影响。 / A synced server signs in again by itself when its sign in stops working: some servers end this app's session when the same account signs in elsewhere, which left home showing a 401 error until signed in again by hand. The app now signs in again with what the panel shares and carries on (at most once a minute per server). Servers added by hand are unchanged.
+
 ## [0.6.24] - 2026-11-07
 
 ### 修复 / Fixed
