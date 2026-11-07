@@ -4,7 +4,7 @@
 
 一款为 Android TV 打造的 Emby 客户端，为遥控器而设计，而不是触摸屏。
 
-**最新版本 0.6.23**，发布于 2026-11-03。需要 Android 7.0
+**最新版本 0.6.24**，发布于 2026-11-07。需要 Android 7.0
 或更高版本（API 24）。
 
 ## 截图
@@ -30,7 +30,7 @@
 
 | 下载 | 适合 | 大小 |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.23/bemplayer-0.6.23-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.24/bemplayer-0.6.24-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
 
 下载 `universal` 即可，所有设备都能用。如果打开 Bemplayer 后显示「此电视的 WebView 太旧」，那个界面会说明
 可以怎么做；使用 Google WebView 的电视可以在界面上直接下载并安装新版。新的 WebView 是电视上所有应用共用的
@@ -47,7 +47,7 @@ Android TV 默认不允许安装来自文件的应用。第一次安装时会弹
 
 ```bash
 adb connect <电视的IP>:5555
-adb install -r bemplayer-0.6.23-universal.apk
+adb install -r bemplayer-0.6.24-universal.apk
 ```
 
 然后在 Android TV 主界面打开 Bemplayer，填入你的 Emby 服务器地址，例如
@@ -78,24 +78,19 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 ## 这个版本有什么
 
-### 新增 / Added
-
-- 服务器同步：在「设置 › 同步」里填入第三方面板的同步地址和同步密钥（可用手机扫码粘贴），面板上共享的 Emby 服务器会自动添加，包括备用线路和登录信息；面板上修改密码或线路、取消共享，这里都会跟着更新。启动和回到应用时自动同步（最多每 10 分钟一次），也可以立即同步。同步只会移除它自己添加的服务器，手动添加的服务器不受影响。 / Server sync: enter a third-party panel's sync address and sync key under Settings › Sync (or paste them on a phone from the QR code), and the Emby servers the panel shares are added for you, backup lines and sign-in included. A password or line changed on the panel, or a server no longer shared, is followed here. Sync runs on launch and on coming back to the app (at most every 10 minutes) and on demand. It only ever removes servers it added itself; ones added by hand are left alone.
-- 字幕按剧记住：看一部剧时打开或关闭字幕，同一部剧的其他集会自动用同样的选择（按名称、语言和格式匹配）。 / Subtitles are remembered per show: turn them on or off in one episode and the show's other episodes follow, matched by name, language and format.
-
 ### 修复 / Fixed
 
-- 在电视上编辑已添加服务器的线路：按「线路」后面板会滚动到屏幕内并获得焦点，按返回回到原来的按钮；之前面板出现在屏幕下方，看起来按了没反应。 / Editing an existing server's addresses on a television: pressing Addresses now scrolls the panel onto the screen and moves focus into it, and Back returns to the button. Before, the panel opened below the screen, so the press looked like it did nothing.
+- 首页和剧集媒体库在部分服务器上显示为空：有的服务器拒绝提供「接下来」一行，之前这会让整个页面只显示错误。现在被拒绝的那一行会被跳过，其余各行照常显示。 / Home and series libraries showing empty on some servers: a server that refuses the Next up row used to leave the whole screen with only an error. A refused row is now left out and the other rows still show.
 
 以前每个版本改了什么，见 [更新日志](CHANGELOG.md)。
 
 ## 校验下载的文件
 
 ```
-7d5948631cc786f0f50b4fb1020c5ec24b8380cf393a1b4ae0f69648de51b166  bemplayer-0.6.23-universal.apk
+205abff358f5d6a8b6c0cf9171334fcb791fd2b117b8134e074725f9297ac49d  bemplayer-0.6.24-universal.apk
 ```
 
-用 `sha256sum bemplayer-0.6.23-universal.apk` 校验其中一个。
+用 `sha256sum bemplayer-0.6.24-universal.apk` 校验其中一个。
 
 ## 反馈问题
 
@@ -111,6 +106,6 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 这个仓库只发布构建产物。它存放各个发行版、这个页面，以及 `update.json`，也就是应用用来发现新
 版本的那个文件。源代码放在另一个私有仓库里，每次发布都会记录它构建自哪个提交：
-`2364b2c`。
+`e92524d`。
 
-版本 0.6.23 是第 623 号构建。
+版本 0.6.24 是第 624 号构建。

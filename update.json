@@ -1,17 +1,17 @@
 {
-  "versionCode": 623,
-  "versionName": "0.6.23",
+  "versionCode": 624,
+  "versionName": "0.6.24",
   "channel": "stable",
-  "notes": "### \u65b0\u589e / Added\n\n- \u670d\u52a1\u5668\u540c\u6b65\uff1a\u5728\u300c\u8bbe\u7f6e \u203a \u540c\u6b65\u300d\u91cc\u586b\u5165\u7b2c\u4e09\u65b9\u9762\u677f\u7684\u540c\u6b65\u5730\u5740\u548c\u540c\u6b65\u5bc6\u94a5\uff08\u53ef\u7528\u624b\u673a\u626b\u7801\u7c98\u8d34\uff09\uff0c\u9762\u677f\u4e0a\u5171\u4eab\u7684 Emby \u670d\u52a1\u5668\u4f1a\u81ea\u52a8\u6dfb\u52a0\uff0c\u5305\u62ec\u5907\u7528\u7ebf\u8def\u548c\u767b\u5f55\u4fe1\u606f\uff1b\u9762\u677f\u4e0a\u4fee\u6539\u5bc6\u7801\u6216\u7ebf\u8def\u3001\u53d6\u6d88\u5171\u4eab\uff0c\u8fd9\u91cc\u90fd\u4f1a\u8ddf\u7740\u66f4\u65b0\u3002\u542f\u52a8\u548c\u56de\u5230\u5e94\u7528\u65f6\u81ea\u52a8\u540c\u6b65\uff08\u6700\u591a\u6bcf 10 \u5206\u949f\u4e00\u6b21\uff09\uff0c\u4e5f\u53ef\u4ee5\u7acb\u5373\u540c\u6b65\u3002\u540c\u6b65\u53ea\u4f1a\u79fb\u9664\u5b83\u81ea\u5df1\u6dfb\u52a0\u7684\u670d\u52a1\u5668\uff0c\u624b\u52a8\u6dfb\u52a0\u7684\u670d\u52a1\u5668\u4e0d\u53d7\u5f71\u54cd\u3002 / Server sync: enter a third-party panel's sync address and sync key under Settings \u203a Sync (or paste them on a phone from the QR code), and the Emby servers the panel shares are added for you, backup lines and sign-in included. A password or line changed on the panel, or a server no longer shared, is followed here. Sync runs on launch and on coming back to the app (at most every 10 minutes) and on demand. It only ever removes servers it added itself; ones added by hand are left alone.\n- \u5b57\u5e55\u6309\u5267\u8bb0\u4f4f\uff1a\u770b\u4e00\u90e8\u5267\u65f6\u6253\u5f00\u6216\u5173\u95ed\u5b57\u5e55\uff0c\u540c\u4e00\u90e8\u5267\u7684\u5176\u4ed6\u96c6\u4f1a\u81ea\u52a8\u7528\u540c\u6837\u7684\u9009\u62e9\uff08\u6309\u540d\u79f0\u3001\u8bed\u8a00\u548c\u683c\u5f0f\u5339\u914d\uff09\u3002 / Subtitles are remembered per show: turn them on or off in one episode and the show's other episodes follow, matched by name, language and format.\n\n### \u4fee\u590d / Fixed\n\n- \u5728\u7535\u89c6\u4e0a\u7f16\u8f91\u5df2\u6dfb\u52a0\u670d\u52a1\u5668\u7684\u7ebf\u8def\uff1a\u6309\u300c\u7ebf\u8def\u300d\u540e\u9762\u677f\u4f1a\u6eda\u52a8\u5230\u5c4f\u5e55\u5185\u5e76\u83b7\u5f97\u7126\u70b9\uff0c\u6309\u8fd4\u56de\u56de\u5230\u539f\u6765\u7684\u6309\u94ae\uff1b\u4e4b\u524d\u9762\u677f\u51fa\u73b0\u5728\u5c4f\u5e55\u4e0b\u65b9\uff0c\u770b\u8d77\u6765\u6309\u4e86\u6ca1\u53cd\u5e94\u3002 / Editing an existing server's addresses on a television: pressing Addresses now scrolls the panel onto the screen and moves focus into it, and Back returns to the button. Before, the panel opened below the screen, so the press looked like it did nothing.",
+  "notes": "### \u4fee\u590d / Fixed\n\n- \u9996\u9875\u548c\u5267\u96c6\u5a92\u4f53\u5e93\u5728\u90e8\u5206\u670d\u52a1\u5668\u4e0a\u663e\u793a\u4e3a\u7a7a\uff1a\u6709\u7684\u670d\u52a1\u5668\u62d2\u7edd\u63d0\u4f9b\u300c\u63a5\u4e0b\u6765\u300d\u4e00\u884c\uff0c\u4e4b\u524d\u8fd9\u4f1a\u8ba9\u6574\u4e2a\u9875\u9762\u53ea\u663e\u793a\u9519\u8bef\u3002\u73b0\u5728\u88ab\u62d2\u7edd\u7684\u90a3\u4e00\u884c\u4f1a\u88ab\u8df3\u8fc7\uff0c\u5176\u4f59\u5404\u884c\u7167\u5e38\u663e\u793a\u3002 / Home and series libraries showing empty on some servers: a server that refuses the Next up row used to leave the whole screen with only an error. A refused row is now left out and the other rows still show.",
   "mandatory": false,
   "minSdk": 24,
-  "releasedAt": "2026-11-03",
-  "sourceCommit": "2364b2c6e9d82c1dd4e9d093c1b4fa97951995bc",
+  "releasedAt": "2026-11-07",
+  "sourceCommit": "e92524d6cfd006496e22db919c03012588cccab2",
   "artifacts": {
     "universal": {
-      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.6.23/bemplayer-0.6.23-universal.apk",
-      "sha256": "7d5948631cc786f0f50b4fb1020c5ec24b8380cf393a1b4ae0f69648de51b166",
-      "sizeBytes": 26331689
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.6.24/bemplayer-0.6.24-universal.apk",
+      "sha256": "205abff358f5d6a8b6c0cf9171334fcb791fd2b117b8134e074725f9297ac49d",
+      "sizeBytes": 26332345
     }
   }
 }

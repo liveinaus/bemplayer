@@ -11,6 +11,12 @@ own section.
 
 ## [Unreleased]
 
+## [0.6.24] - 2026-11-07
+
+### 修复 / Fixed
+
+- 首页和剧集媒体库在部分服务器上显示为空：有的服务器拒绝提供「接下来」一行，之前这会让整个页面只显示错误。现在被拒绝的那一行会被跳过，其余各行照常显示。 / Home and series libraries showing empty on some servers: a server that refuses the Next up row used to leave the whole screen with only an error. A refused row is now left out and the other rows still show.
+
 ## [0.6.23] - 2026-11-04
 
 ### 新增 / Added

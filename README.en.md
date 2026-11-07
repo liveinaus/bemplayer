@@ -4,7 +4,7 @@
 
 An Emby client for Android TV, built for a remote control rather than a touchscreen.
 
-**Latest version 0.6.23**, released 2026-11-03. Requires Android 7.0 or newer
+**Latest version 0.6.24**, released 2026-11-07. Requires Android 7.0 or newer
 (API 24).
 
 ## Screenshots
@@ -30,7 +30,7 @@ On a television, at 1080p.
 
 | Download | Best for | Size |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.23/bemplayer-0.6.23-universal.apk) | Works on every Android TV device | 25.1 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.24/bemplayer-0.6.24-universal.apk) | Works on every Android TV device | 25.1 MB |
 
 `universal` is the one to take: it works on every device. If Bemplayer opens with a screen
 saying the TV's WebView is too old, that screen says what can be done, and on a TV with
@@ -50,7 +50,7 @@ APK across, open it, and accept the install prompt.
 
 ```bash
 adb connect <tv-ip>:5555
-adb install -r bemplayer-0.6.23-universal.apk
+adb install -r bemplayer-0.6.24-universal.apk
 ```
 
 Then open Bemplayer from the Android TV home screen and enter your Emby server address,
@@ -85,24 +85,19 @@ information for a bug report.
 
 ## What is in this release
 
-### 新增 / Added
-
-- 服务器同步：在「设置 › 同步」里填入第三方面板的同步地址和同步密钥（可用手机扫码粘贴），面板上共享的 Emby 服务器会自动添加，包括备用线路和登录信息；面板上修改密码或线路、取消共享，这里都会跟着更新。启动和回到应用时自动同步（最多每 10 分钟一次），也可以立即同步。同步只会移除它自己添加的服务器，手动添加的服务器不受影响。 / Server sync: enter a third-party panel's sync address and sync key under Settings › Sync (or paste them on a phone from the QR code), and the Emby servers the panel shares are added for you, backup lines and sign-in included. A password or line changed on the panel, or a server no longer shared, is followed here. Sync runs on launch and on coming back to the app (at most every 10 minutes) and on demand. It only ever removes servers it added itself; ones added by hand are left alone.
-- 字幕按剧记住：看一部剧时打开或关闭字幕，同一部剧的其他集会自动用同样的选择（按名称、语言和格式匹配）。 / Subtitles are remembered per show: turn them on or off in one episode and the show's other episodes follow, matched by name, language and format.
-
 ### 修复 / Fixed
 
-- 在电视上编辑已添加服务器的线路：按「线路」后面板会滚动到屏幕内并获得焦点，按返回回到原来的按钮；之前面板出现在屏幕下方，看起来按了没反应。 / Editing an existing server's addresses on a television: pressing Addresses now scrolls the panel onto the screen and moves focus into it, and Back returns to the button. Before, the panel opened below the screen, so the press looked like it did nothing.
+- 首页和剧集媒体库在部分服务器上显示为空：有的服务器拒绝提供「接下来」一行，之前这会让整个页面只显示错误。现在被拒绝的那一行会被跳过，其余各行照常显示。 / Home and series libraries showing empty on some servers: a server that refuses the Next up row used to leave the whole screen with only an error. A refused row is now left out and the other rows still show.
 
 What changed in every earlier version is in the [changelog](CHANGELOG.md).
 
 ## Verifying a download
 
 ```
-7d5948631cc786f0f50b4fb1020c5ec24b8380cf393a1b4ae0f69648de51b166  bemplayer-0.6.23-universal.apk
+205abff358f5d6a8b6c0cf9171334fcb791fd2b117b8134e074725f9297ac49d  bemplayer-0.6.24-universal.apk
 ```
 
-Check one with `sha256sum bemplayer-0.6.23-universal.apk`.
+Check one with `sha256sum bemplayer-0.6.24-universal.apk`.
 
 ## Reporting a problem
 
@@ -121,6 +116,6 @@ For bug reports, suggestions or a chat, there is also the Telegram group
 This repository publishes builds only. It holds the releases, this page and
 `update.json`, which is the file the app polls to discover new versions. The source is
 kept in a separate private repository, and each release records the commit it was built
-from: `2364b2c`.
+from: `e92524d`.
 
-Version 0.6.23 is build 623.
+Version 0.6.24 is build 624.
