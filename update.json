@@ -1,17 +1,17 @@
 {
-  "versionCode": 625,
-  "versionName": "0.6.25",
+  "versionCode": 626,
+  "versionName": "0.6.26",
   "channel": "stable",
-  "notes": "### \u4fee\u590d / Fixed\n\n- \u540c\u6b65\u7684\u670d\u52a1\u5668\u5728\u767b\u5f55\u5931\u6548\u540e\u4f1a\u81ea\u52a8\u91cd\u65b0\u767b\u5f55\uff1a\u6709\u7684\u670d\u52a1\u5668\u5728\u522b\u5904\u767b\u5f55\u540c\u4e00\u8d26\u53f7\u65f6\u4f1a\u8ba9\u8fd9\u91cc\u7684\u767b\u5f55\u5931\u6548\uff0c\u4e4b\u524d\u9996\u9875\u53ea\u4f1a\u663e\u793a 401 \u9519\u8bef\uff0c\u9700\u8981\u624b\u52a8\u91cd\u65b0\u767b\u5f55\u3002\u73b0\u5728\u4f1a\u7528\u9762\u677f\u4e0a\u7684\u767b\u5f55\u4fe1\u606f\u81ea\u52a8\u91cd\u65b0\u767b\u5f55\u5e76\u7ee7\u7eed\u52a0\u8f7d\uff08\u540c\u4e00\u670d\u52a1\u5668\u6bcf\u5206\u949f\u6700\u591a\u4e00\u6b21\uff09\u3002\u624b\u52a8\u6dfb\u52a0\u7684\u670d\u52a1\u5668\u4e0d\u53d7\u5f71\u54cd\u3002 / A synced server signs in again by itself when its sign in stops working: some servers end this app's session when the same account signs in elsewhere, which left home showing a 401 error until signed in again by hand. The app now signs in again with what the panel shares and carries on (at most once a minute per server). Servers added by hand are unchanged.",
+  "notes": "### \u4fee\u590d / Fixed\n\n- \u4fee\u590d\u90e8\u5206\u670d\u52a1\u5668\u64ad\u653e\u65f6\u62a5 `ERROR_CODE_IO_BAD_HTTP_STATUS: Response code 404`\uff1a\u670d\u52a1\u5668\u7ed9\u51fa\u7684\u76f8\u5bf9\u64ad\u653e\u5730\u5740\u73b0\u5728\u6309 Emby \u5ba2\u6237\u7aef\u7684\u65b9\u5f0f\u63a5\u5728 `/emby` \u4e0b\u9762\uff0c\u800c\u4e0d\u662f\u63a5\u5728\u670d\u52a1\u5668\u6839\u5730\u5740\u4e0a\u3002\u666e\u901a Emby \u4e24\u79cd\u5199\u6cd5\u90fd\u63a5\u53d7\uff0c\u53ea\u8d70 `/emby` \u7684\u524d\u7aef\u4e4b\u524d\u4f1a\u8fd4\u56de 404\u3002\u5b57\u5e55\u5730\u5740\u540c\u6837\u5904\u7406\u3002 / Fixed playback failing with `ERROR_CODE_IO_BAD_HTTP_STATUS: Response code 404` on some servers: a relative stream link from the server is now read against `/emby`, as Emby's own clients read it, rather than the server's root. Stock Emby answers both, but a front-end that routes only `/emby` answered 404. Subtitle links are read the same way.\n- \u5267\u96c6\u5217\u8868\u4e0d\u518d\u663e\u793a\u8fd8\u6ca1\u6709\u7247\u6e90\u7684\u96c6\u6570\uff1a\u6709\u7684\u670d\u52a1\u5668\u4f1a\u63d0\u524d\u5217\u51fa\u6574\u5b63\uff0c\u73b0\u5728\u53ea\u663e\u793a\u80fd\u64ad\u653e\u7684\u96c6\uff0c\u81ea\u52a8\u8fde\u64ad\u4e5f\u4e0d\u4f1a\u8df3\u5230\u8fd9\u4e9b\u96c6\u3002 / Episode lists no longer show episodes that have no file yet: some servers list a whole season ahead of its files, and now only the playable ones are shown, and playing on to the next episode skips them too.",
   "mandatory": false,
   "minSdk": 24,
-  "releasedAt": "2026-11-07",
-  "sourceCommit": "cbcdc180a74a83764ece82c5d36418db298e4e20",
+  "releasedAt": "2026-11-12",
+  "sourceCommit": "46e32b40eaa4defcc2bdb1bbc34db5bd0d9f112e",
   "artifacts": {
     "universal": {
-      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.6.25/bemplayer-0.6.25-universal.apk",
-      "sha256": "b088258d10f89859a469bdddaf1facd0cf1926be7c32575dbe837bc42b40e5cc",
-      "sizeBytes": 26334181
+      "url": "https://github.com/liveinaus/bemplayer/releases/download/v0.6.26/bemplayer-0.6.26-universal.apk",
+      "sha256": "9bc1587ca100d39320cd2ad63aa131400f3587174b27e4ace37bee0007a305f6",
+      "sizeBytes": 26335369
     }
   }
 }

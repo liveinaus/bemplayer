@@ -4,7 +4,7 @@
 
 一款为 Android TV 打造的 Emby 客户端，为遥控器而设计，而不是触摸屏。
 
-**最新版本 0.6.25**，发布于 2026-11-07。需要 Android 7.0
+**最新版本 0.6.26**，发布于 2026-11-12。需要 Android 7.0
 或更高版本（API 24）。
 
 ## 截图
@@ -30,7 +30,7 @@
 
 | 下载 | 适合 | 大小 |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.25/bemplayer-0.6.25-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.26/bemplayer-0.6.26-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
 
 下载 `universal` 即可，所有设备都能用。如果打开 Bemplayer 后显示「此电视的 WebView 太旧」，那个界面会说明
 可以怎么做；使用 Google WebView 的电视可以在界面上直接下载并安装新版。新的 WebView 是电视上所有应用共用的
@@ -47,7 +47,7 @@ Android TV 默认不允许安装来自文件的应用。第一次安装时会弹
 
 ```bash
 adb connect <电视的IP>:5555
-adb install -r bemplayer-0.6.25-universal.apk
+adb install -r bemplayer-0.6.26-universal.apk
 ```
 
 然后在 Android TV 主界面打开 Bemplayer，填入你的 Emby 服务器地址，例如
@@ -80,17 +80,18 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 ### 修复 / Fixed
 
-- 同步的服务器在登录失效后会自动重新登录：有的服务器在别处登录同一账号时会让这里的登录失效，之前首页只会显示 401 错误，需要手动重新登录。现在会用面板上的登录信息自动重新登录并继续加载（同一服务器每分钟最多一次）。手动添加的服务器不受影响。 / A synced server signs in again by itself when its sign in stops working: some servers end this app's session when the same account signs in elsewhere, which left home showing a 401 error until signed in again by hand. The app now signs in again with what the panel shares and carries on (at most once a minute per server). Servers added by hand are unchanged.
+- 修复部分服务器播放时报 `ERROR_CODE_IO_BAD_HTTP_STATUS: Response code 404`：服务器给出的相对播放地址现在按 Emby 客户端的方式接在 `/emby` 下面，而不是接在服务器根地址上。普通 Emby 两种写法都接受，只走 `/emby` 的前端之前会返回 404。字幕地址同样处理。 / Fixed playback failing with `ERROR_CODE_IO_BAD_HTTP_STATUS: Response code 404` on some servers: a relative stream link from the server is now read against `/emby`, as Emby's own clients read it, rather than the server's root. Stock Emby answers both, but a front-end that routes only `/emby` answered 404. Subtitle links are read the same way.
+- 剧集列表不再显示还没有片源的集数：有的服务器会提前列出整季，现在只显示能播放的集，自动连播也不会跳到这些集。 / Episode lists no longer show episodes that have no file yet: some servers list a whole season ahead of its files, and now only the playable ones are shown, and playing on to the next episode skips them too.
 
 以前每个版本改了什么，见 [更新日志](CHANGELOG.md)。
 
 ## 校验下载的文件
 
 ```
-b088258d10f89859a469bdddaf1facd0cf1926be7c32575dbe837bc42b40e5cc  bemplayer-0.6.25-universal.apk
+9bc1587ca100d39320cd2ad63aa131400f3587174b27e4ace37bee0007a305f6  bemplayer-0.6.26-universal.apk
 ```
 
-用 `sha256sum bemplayer-0.6.25-universal.apk` 校验其中一个。
+用 `sha256sum bemplayer-0.6.26-universal.apk` 校验其中一个。
 
 ## 反馈问题
 
@@ -106,6 +107,6 @@ b088258d10f89859a469bdddaf1facd0cf1926be7c32575dbe837bc42b40e5cc  bemplayer-0.6.
 
 这个仓库只发布构建产物。它存放各个发行版、这个页面，以及 `update.json`，也就是应用用来发现新
 版本的那个文件。源代码放在另一个私有仓库里，每次发布都会记录它构建自哪个提交：
-`cbcdc18`。
+`46e32b4`。
 
-版本 0.6.25 是第 625 号构建。
+版本 0.6.26 是第 626 号构建。

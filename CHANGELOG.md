@@ -11,6 +11,13 @@ own section.
 
 ## [Unreleased]
 
+## [0.6.26] - 2026-11-12
+
+### 修复 / Fixed
+
+- 修复部分服务器播放时报 `ERROR_CODE_IO_BAD_HTTP_STATUS: Response code 404`：服务器给出的相对播放地址现在按 Emby 客户端的方式接在 `/emby` 下面，而不是接在服务器根地址上。普通 Emby 两种写法都接受，只走 `/emby` 的前端之前会返回 404。字幕地址同样处理。 / Fixed playback failing with `ERROR_CODE_IO_BAD_HTTP_STATUS: Response code 404` on some servers: a relative stream link from the server is now read against `/emby`, as Emby's own clients read it, rather than the server's root. Stock Emby answers both, but a front-end that routes only `/emby` answered 404. Subtitle links are read the same way.
+- 剧集列表不再显示还没有片源的集数：有的服务器会提前列出整季，现在只显示能播放的集，自动连播也不会跳到这些集。 / Episode lists no longer show episodes that have no file yet: some servers list a whole season ahead of its files, and now only the playable ones are shown, and playing on to the next episode skips them too.
+
 ## [0.6.25] - 2026-11-07
 
 ### 修复 / Fixed
