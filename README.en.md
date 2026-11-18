@@ -4,7 +4,7 @@
 
 An Emby client for Android TV, built for a remote control rather than a touchscreen.
 
-**Latest version 0.6.29**, released 2026-11-18. Requires Android 7.0 or newer
+**Latest version 0.6.26**, released 2026-11-12. Requires Android 7.0 or newer
 (API 24).
 
 ## Screenshots
@@ -30,7 +30,7 @@ On a television, at 1080p.
 
 | Download | Best for | Size |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.29/bemplayer-0.6.29-universal.apk) | Works on every Android TV device | 25.5 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.26/bemplayer-0.6.26-universal.apk) | Works on every Android TV device | 25.1 MB |
 
 `universal` is the one to take: it works on every device. If Bemplayer opens with a screen
 saying the TV's WebView is too old, that screen says what can be done, and on a TV with
@@ -50,7 +50,7 @@ APK across, open it, and accept the install prompt.
 
 ```bash
 adb connect <tv-ip>:5555
-adb install -r bemplayer-0.6.29-universal.apk
+adb install -r bemplayer-0.6.26-universal.apk
 ```
 
 Then open Bemplayer from the Android TV home screen and enter your Emby server address,
@@ -85,17 +85,20 @@ information for a bug report.
 
 ## What is in this release
 
-See the commit history for what changed in this build.
+### 修复 / Fixed
+
+- 修复部分服务器播放时报 `ERROR_CODE_IO_BAD_HTTP_STATUS: Response code 404`：服务器给出的相对播放地址现在按 Emby 客户端的方式接在 `/emby` 下面，而不是接在服务器根地址上。普通 Emby 两种写法都接受，只走 `/emby` 的前端之前会返回 404。字幕地址同样处理。 / Fixed playback failing with `ERROR_CODE_IO_BAD_HTTP_STATUS: Response code 404` on some servers: a relative stream link from the server is now read against `/emby`, as Emby's own clients read it, rather than the server's root. Stock Emby answers both, but a front-end that routes only `/emby` answered 404. Subtitle links are read the same way.
+- 剧集列表不再显示还没有片源的集数：有的服务器会提前列出整季，现在只显示能播放的集，自动连播也不会跳到这些集。 / Episode lists no longer show episodes that have no file yet: some servers list a whole season ahead of its files, and now only the playable ones are shown, and playing on to the next episode skips them too.
 
 What changed in every earlier version is in the [changelog](CHANGELOG.md).
 
 ## Verifying a download
 
 ```
-47ca39deb58525690bbb09d08b3863ec3b2767249a1dfb8d947e5bb12a247636  bemplayer-0.6.29-universal.apk
+9bc1587ca100d39320cd2ad63aa131400f3587174b27e4ace37bee0007a305f6  bemplayer-0.6.26-universal.apk
 ```
 
-Check one with `sha256sum bemplayer-0.6.29-universal.apk`.
+Check one with `sha256sum bemplayer-0.6.26-universal.apk`.
 
 ## Reporting a problem
 
@@ -114,6 +117,6 @@ For bug reports, suggestions or a chat, there is also the Telegram group
 This repository publishes builds only. It holds the releases, this page and
 `update.json`, which is the file the app polls to discover new versions. The source is
 kept in a separate private repository, and each release records the commit it was built
-from: `a65a2a4`.
+from: `46e32b4`.
 
-Version 0.6.29 is build 629.
+Version 0.6.26 is build 626.

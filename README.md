@@ -4,7 +4,7 @@
 
 一款为 Android TV 打造的 Emby 客户端，为遥控器而设计，而不是触摸屏。
 
-**最新版本 0.6.29**，发布于 2026-11-18。需要 Android 7.0
+**最新版本 0.6.26**，发布于 2026-11-12。需要 Android 7.0
 或更高版本（API 24）。
 
 ## 截图
@@ -30,7 +30,7 @@
 
 | 下载 | 适合 | 大小 |
 | --- | --- | --- |
-| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.29/bemplayer-0.6.29-universal.apk) | 适用于所有 Android TV 设备 | 25.5 MB |
+| [universal](https://github.com/liveinaus/bemplayer/releases/download/v0.6.26/bemplayer-0.6.26-universal.apk) | 适用于所有 Android TV 设备 | 25.1 MB |
 
 下载 `universal` 即可，所有设备都能用。如果打开 Bemplayer 后显示「此电视的 WebView 太旧」，那个界面会说明
 可以怎么做；使用 Google WebView 的电视可以在界面上直接下载并安装新版。新的 WebView 是电视上所有应用共用的
@@ -47,7 +47,7 @@ Android TV 默认不允许安装来自文件的应用。第一次安装时会弹
 
 ```bash
 adb connect <电视的IP>:5555
-adb install -r bemplayer-0.6.29-universal.apk
+adb install -r bemplayer-0.6.26-universal.apk
 ```
 
 然后在 Android TV 主界面打开 Bemplayer，填入你的 Emby 服务器地址，例如
@@ -78,17 +78,20 @@ Bemplayer 会自行检查新版本，不用电脑也能安装。进入设置，�
 
 ## 这个版本有什么
 
-See the commit history for what changed in this build.
+### 修复 / Fixed
+
+- 修复部分服务器播放时报 `ERROR_CODE_IO_BAD_HTTP_STATUS: Response code 404`：服务器给出的相对播放地址现在按 Emby 客户端的方式接在 `/emby` 下面，而不是接在服务器根地址上。普通 Emby 两种写法都接受，只走 `/emby` 的前端之前会返回 404。字幕地址同样处理。 / Fixed playback failing with `ERROR_CODE_IO_BAD_HTTP_STATUS: Response code 404` on some servers: a relative stream link from the server is now read against `/emby`, as Emby's own clients read it, rather than the server's root. Stock Emby answers both, but a front-end that routes only `/emby` answered 404. Subtitle links are read the same way.
+- 剧集列表不再显示还没有片源的集数：有的服务器会提前列出整季，现在只显示能播放的集，自动连播也不会跳到这些集。 / Episode lists no longer show episodes that have no file yet: some servers list a whole season ahead of its files, and now only the playable ones are shown, and playing on to the next episode skips them too.
 
 以前每个版本改了什么，见 [更新日志](CHANGELOG.md)。
 
 ## 校验下载的文件
 
 ```
-47ca39deb58525690bbb09d08b3863ec3b2767249a1dfb8d947e5bb12a247636  bemplayer-0.6.29-universal.apk
+9bc1587ca100d39320cd2ad63aa131400f3587174b27e4ace37bee0007a305f6  bemplayer-0.6.26-universal.apk
 ```
 
-用 `sha256sum bemplayer-0.6.29-universal.apk` 校验其中一个。
+用 `sha256sum bemplayer-0.6.26-universal.apk` 校验其中一个。
 
 ## 反馈问题
 
@@ -104,6 +107,6 @@ See the commit history for what changed in this build.
 
 这个仓库只发布构建产物。它存放各个发行版、这个页面，以及 `update.json`，也就是应用用来发现新
 版本的那个文件。源代码放在另一个私有仓库里，每次发布都会记录它构建自哪个提交：
-`a65a2a4`。
+`46e32b4`。
 
-版本 0.6.29 是第 629 号构建。
+版本 0.6.26 是第 626 号构建。
