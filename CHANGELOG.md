@@ -11,6 +11,16 @@ own section.
 
 ## [Unreleased]
 
+### 新增 / Added
+
+- Siri 语音控制：用 HomePod 上的 Siri 控制播放，不用拿遥控器。在「设置 › 语音」里打开后，按列表在 iPhone 的“快捷指令”里新建快捷指令（可用手机扫码复制地址），比如说“嘿 Siri，电视下一集”。万能快捷指令“播放器”可以听整句话：下一集、上一集、快进三十秒、快退两分半、跳到二十分钟、从头开始、暂停、继续、跳过片头、中文字幕、关字幕、换音轨、切换到粤语、第五集、第二季第三集、继续看某部剧、播放某部电影。片名按读音匹配，Siri 写错了字也能找到；不确定是哪一部时会列出来，说“第二个”即可。屏幕上方会显示听到了什么。只在应用打开、语音控制开启时有效，以 bemplayer.local 出现在家庭网络上，IP 地址变了也不用改快捷指令；每个请求都要带密钥，只接受播放命令，不会发回任何信息。 / Siri voice control: control playback with Siri on a HomePod instead of the remote. Turn it on under Settings › Voice, then make the listed shortcuts in the Shortcuts app on an iPhone (the addresses can be copied there from a QR code), and say, for example, "Hey Siri, TV next". The general shortcut takes a whole phrase: next or previous episode, skip forward 30 seconds, rewind 2 minutes, go to 20 minutes, start over, pause, resume, skip intro, Chinese or English subtitles, subtitles off, change audio, switch to Cantonese, episode 5, season 2 episode 3, continue watching a show, play a film. Titles are matched by how they sound, so a name Siri spelt wrong is still found; when it is not clear which one was meant, a numbered list appears and "the second one" picks. What was heard is shown at the top of the screen. It works while the app is open and voice control is on, appears on the home network as bemplayer.local so the shortcuts keep working when the address changes, needs a key on every request, takes playback commands only, and sends nothing back.
+
+- 一键添加 Siri 快捷指令：在「设置 › 语音」里点“在手机上查看”，用 iPhone 扫码，先添加并点一下“连接这台电视”，再在想要的快捷指令旁点“添加”，不用再手动新建、粘贴地址。万能的“播放器”和固定的几句可以只加一种，也可以都加。每个快捷指令加好后点一次“试一下”并允许访问文件，HomePod 上才能用。 / Siri shortcuts added with a tap: under Settings › Voice, choose Show on phone and scan the code with an iPhone, add and tap Connect this TV, then tap Add beside each shortcut wanted, with no building shortcuts or pasting addresses by hand. Add the general "Bemplayer" one, the fixed phrases, or both. Tap Test once on each and allow file access, so Siri on a HomePod can run it.
+
+### 修复 / Fixed
+
+- 语音控制现在会在家庭网络上正确出现为 bemplayer.local：之前只能用 IP 地址连接，因为名字可能广播到了电视内部的网络上。电视现在使用正在连接的 Wi-Fi 或有线网络；如果还是无法广播，运行日志会写明原因。手机配对显示的地址也用同样的方式选择。 / Voice control now appears on the home network as bemplayer.local: before, only the IP address worked, because the name could be announced on one of the television's internal networks. The television now uses the Wi-Fi or wired network it is actually on, and if the name still cannot be announced, the logs say why. Phone pairing picks its address the same way.
+
 ## [0.6.26] - 2026-11-12
 
 ### 修复 / Fixed
